@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/xadmin-while.css">
+    <script src="../layui/layui.js"></script>
+</head>
+<style>
+	 body{padding: 0; margin: 0;}
+	.layui-table-view{border: none;}
+</style>
+<body>
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="table">			
+			<table id="users" lay-filter="users"></table>
+		</div>
+	</div>
+</div>
+<script type="text/html" id="barActions">
+	<div class="layui-btn-group">
+		<!-- <button type="button" lay-event="edit" class="layui-btn layui-btn-xs layui-btn-normal"><i class="layui-icon layui-icon-edit"></i>Edit</button> -->
+		{{#  if(d.state === 0){ }}
+		<button type="button" lay-event="disable" class="layui-btn layui-btn-xs layui-bg-red"><i class="layui-icon layui-icon-disabled"></i>Disable</button>
+		{{#  }else if(d.state === 1){ }}
+		<button type="button" lay-event="enable" class="layui-btn layui-btn-xs"><i class="layui-icon layui-icon-component"></i>Enable</button>
+		{{#  } }}
+	</div>
+</script>
+<script>
+layui.extend({
+	common: '../modules/common'
+});
+layui.use(['table','form','common'], function(){
+	var $ = layui.jquery
+		,table = layui.table
+		,form = layui.form
+		,common = layui.common;
+	
+	var user;
+	user = JSON.parse(localStorage.getItem("admin"));
+	if(user == null){
+		window.location.href='../login.html';  
+	}
+	var server = 'http://' + user.device_ip + ':12569/';
+	
+	var users_url = server + "user/get_page/" + user.user_id;
+	var user_manage = table.render({
+		elem: '#users'
+		,height: 'full-45'
+		,url: users_url
+		,page: {
+			layout: ['prev', 'page', 'next', 'skip', 'count','limit'],
+		}
+		,limit:50
+		,limits:[50,100,200]
+		,skin:'nob'
+		,text: {none: 'No Data'}
+		,request: {
+		  pageName: 'page_index',
+		  limitName: 'page_size'
+		}
+		,cols: [[
+			{checkbox: true}
+			,{field: 'actions', title: 'Actions',width:260,align:'center', toolbar: '#barActions'}
+			,{field: 'name', title: 'User Name',align:'center'}
+			,{field: 'port_range', title: 'Port Range',align:'center'}
+			,{field: 'role', title: 'Role',width:80,align:'center'}
+			,{field: 'invite_code', title: 'Invite Code',align:'center'}
+			,{field: 'state', title: 'State',width:80,align:'center'}
+			,{field: 'login_times', title: 'Login times',align:'center'}
+			,{field: 'last_update', title: 'Last Update',align:'center'}
+		]],
+		error: function(res){
+			var errorText = 'Data loading failed!';	
+			if (res.status === 404) {
+				errorText = 'The data interface does not exist!';
+			} else if (res.status === 500) {
+				errorText = 'Server error!';
+			}
+			$('.layui-table-main .layui-none').text(errorText);
+		},
+		parseData: function(res){
+			return {
+				"code": 0,
+				"msg": res.message,
+				"count": res.data.recordCount,
+				"data": res.data.data
+			};
+		}
+	});
+	
+	table.on('tool(users)', function(obj){
+		var data = obj.data;
+		if(obj.event === 'disable'){
+			parent.layer.prompt({title: 'Please enter the administrator password!',btn: ['submit', 'cancel']}, function(value, index, elem){
+				if(value === '') return elem.focus();
+				var url = server + "user/change_state/" + value + "/" + data.name + "/1";
+				common.doAjaxTableReload(url,"GET","users",index);
+			});
+		}else if(obj.event === 'enable'){
+			parent.layer.prompt({title: 'Please enter the administrator password!',btn: ['submit', 'cancel']}, function(value, index, elem){
+				if(value === '') return elem.focus();
+				var url = server + "user/change_state/" + value + "/" + data.name + "/0";
+				common.doAjaxTableReload(url,"GET","users",index);
+			});
+		}
+	});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+@charset "utf-8";
+@import url(../layui/css/layui.css);
+*{margin: 0px; padding: 0px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+a{text-decoration: none;}
+body{height: 100%;overflow: hidden;}
+.top-box{width:100%;height:50px;margin: 0; padding: 0;}
+.left-nav{border-right: 1px solid rgba(82,99,115,0.2); background-color: white;height: 100%;position: fixed; width: 50px; z-index: 1; height: 100vh;}
+.logo{width:50px; height:60px; border-right: 1px solid rgba(82,99,115,0.2); background-color: #fff; float: left;}
+.logo span{margin: 10px 5px; width: 40px; height: 40px; display: block;pointer-events: none;background-image: url(../images/web-logo.png);background-position: center;background-repeat: no-repeat;background-size: 38px;cursor: pointer;}
+.right-nav{width:calc(100% - 51px); float: left; background-color: #EDEFF1;}
+.right-nav .tb-center{width:calc(100% - 400px); float: left; height:60px; line-height: 60px; text-align: center;}
+.btn1,.btn1:hover{background-color: #fff; border:1px solid #EDEFF1;color: #54688E; font-weight: bold;}
+.btn2,.btn2:hover{background-color:#526373; border:1px solid #526373; color:#fff; font-weight: bold;}
+.right-nav .tb-center span{position: relative;}
+.right-nav .tb-center span font{position: absolute; width:100%; height: 30px; line-height: 30px; display: block; text-align: center; font-size: 12px; top: -17px; left:-5px; color: #666;}
+#nav{padding:10px 0;}
+
+#nav li{height: 40px; position: relative; cursor: pointer; text-align: center;}
+#nav li a{height: 40px; line-height: 40px; background-color: #fff; display: block;}
+#nav li a .layui-icon{font-size: 20px;}
+#nav li .active{width:51px; background-color: #EDEFF1; cursor: default;}
+#nav li a .layui-icon img{width:22px; height:22px;}
+
+.right{float: right; background-color: #EDEFF1 !important;}
+.page-content{width:calc(100% - 51px); height:calc(100vh - 50px); display: block; background-color: #EDEFF1; margin-left: 51px;}
+.page-content iframe{width: 100%; height: 100%;}
+
+.layui-nav.layui-bg-gray .layui-nav-item a{color:#1e9fff;}
+
+/*框架页面样式*/
+.row-title{height: 60px; line-height: 60px; font-size: 24px; font-weight: bold; color: #54688E;}
+.layui-right{text-align: right;}
+.layui-btn-zdy,.layui-btn-zdy img{width:40px; height: 40px; line-height: 40px;}
+.layui-row .table{background-color: #fff; padding: 10px 15px;}
+.layui-row .table .line .table_title,.table_title{height: 50px; line-height:50px; font-size: 16px; font-weight: bold; color: #54688E;}
+.layui-row .table .line .icon{height: 50px; line-height:40px; font-size: 18px; font-weight: bold; color: #54688E; text-align: right;}
+.layui-row .table .line .icon span{font-size: 14px; padding-right: 20px;}
+.layui-row .table .line .icon img{width:20px; height: 20px;}
+
+.dialog_index .layui-input-wrap{margin-bottom: 15px;}
+.barActions .layui-icon img{width:16px; height:16px; margin-bottom: 5px;}
+
+.port_dialog .layui-form-item{ position:relative;}
+.port_dialog .layui-form-item label{ position:absolute; color:#2f363c; left:10px; z-index: 3; top:-13px; line-height:20px; background:#fff; padding:0 5px; font-size:14px; cursor:text;}

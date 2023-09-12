@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/xadmin-while.css">
+    <script src="../layui/layui.js"></script>
+</head>
+<style>
+	 body{padding-top: 5px;}
+	.layui-table-view{border: none;}
+	.layui-table-tool{padding: 0 !important; border: none!important;}
+	.layui-table-tool .layui-inline[lay-event]{border: none!important; margin-left: 5px !important; background-color: #16baaa; color: #fff; border-radius: 50%;}
+	.icon-btn{width:26px; height: 26px; padding: 5px; background-color: #16baaa; color: #fff; border-radius: 50%; float: left;}
+	.layui-table-tool .layui-inline[lay-event='LAYTABLE_DELETE']{background-color: #ff5722;}
+	.layui-table-tool .layui-inline[lay-event='LAYTABLE_REFRESH']{background-color: #16b777;}
+	.date .layui-input{font-size: 14px; font-weight: 100; margin-top: 10px; height: 30px; line-height: 30px;}
+	.date .layui-input-prefix{line-height: 30px !important;}
+	.date .layui-input:focus{box-shadow: 0 0 5px rgba(22, 183, 119, 0.5); border-color: #16b777;}
+	.title-icon{text-align: right; padding-right: 10px; margin-top: 15px;}
+	.title-icon a{width:26px; height: 26px; padding: 5px; background-color: #16baaa; color: #fff; border-radius: 50%;}
+</style>
+<body>
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<font class="row-title">Proxy Manager Dashboard</font>
+		</div>
+		<div class="layui-col-xs6 layui-right">
+			<a class="layui-btn-zdy" onclick="change_iframe('#lamp')"><i class="layui-icon"><img src="../images/round_lamps.png"/></i></a>
+			<a class="layui-btn-zdy" onclick="change_iframe('#adjust')"><i class="layui-icon"><img src="../images/round_adjust.png"/></i></a>
+			<a class="layui-btn-zdy" onclick="change_iframe('#chart')"><i class="layui-icon"><img src="../images/round_chart.png"/></i></a>
+			<a onclick="add_port()" class="layui-btn layui-btn-primary layui-btn-radius btn2">Add New Port</i></a>
+		</div>
+	</div>
+	<div class="layui-row layui-col-space15">
+		<div class="layui-col-xs9">
+			<div class="table">
+				<table id="proxy_ports" lay-filter="proxy_ports"></table>
+			</div>
+		</div>
+		<div class="layui-col-xs3">
+			<div class="table">
+				<div class="layui-row layui-form">
+					<div class="layui-col-xs3 table_title">Statistics</div>
+					<div class="layui-col-xs7">
+						<div class="layui-input-wrap date">
+							<div class="layui-input-prefix">
+								<i class="layui-icon layui-icon-date"></i>
+							</div>
+							<input type="text" id="ID-laydate" autocomplete="off" readonly  placeholder="date" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-col-xs2 title-icon"><a href="####" onclick="statistics_export();"><i class="layui-icon layui-icon-export"></i></a></div>
+				</div>
+				<table id="statistics" lay-filter="statistics"></table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/html" id="toolbarDemo">
+<div class="table_title">Proxy ports</div>
+</script>
+<script type="text/html" id="barActions">
+	<div class="barActions">
+	<a href="####" lay-event="refresh" title="refresh"><i class="layui-icon layui-icon-refresh-3" style="color:#16b777;"></i></a>
+	<a href="####" lay-event="copy" title="copy"><i class="layui-icon layui-icon-template-1" style="color:#ffb800;"></i></a>
+	<a href="####" lay-event="edit" title="edit"><i class="layui-icon layui-icon-edit" style="color:#1e9fff;"></i></a>
+	<a href="####" lay-event="delete" title="delete"><i class="layui-icon layui-icon-clear" style="color:#ff5722;"></i></a>
+	</div>
+</script>
+<script type="text/html" id="proxy_area">
+	{{#  if(d.proxy_area != ""){ }}
+	{{# var arr =  d.proxy_area.split("-");  }}
+	{{# var country =  arr[0];  }}
+    <img src="../images/flags_code/{{= country}}.png"/ style="width:20px; height:20px;" onerror="this.onerror=null;this.src='../images/logo_z.png';"> {{= d.proxy_area }} 
+	{{# }else{ }}
+	<img src="../images/logo_z.png"/ style="width:20px; height:20px;"> {{= d.proxy_area }} 
+	{{#  } }}
+</script>
+<script type="text/html" id="whitelist">
+	{{#  if(d.whitelist != ""){ }}
+	{{# var arr =  d.whitelist.split(","); }}
+	{{#  layui.each(arr, function(index, item){ }}
+		<span class="layui-badge  layui-bg-blue"">{{item}}</span>
+	{{#  }); }}
+	{{#  } }}
+</script>
+<script type="text/html" id="noproxylist">
+	{{#  if(d.noproxylist != ""){ }}
+	{{# var arr =  d.noproxylist.split(",");  }}
+	{{#  layui.each(arr, function(index, item){ }}
+		<span class="layui-badge  layui-bg-blue"">{{item}}</span>
+	{{#  }); }}
+	{{#  } }}
+</script>
+<script type="text/html" id="proxy_sticky">
+	{{#  if(d.proxy_sticky == ""){ }}
+	5 min
+	{{# }else{ }}
+	{{ d.proxy_sticky }} min
+	{{#  } }}
+</script>
+<script type="text/html" id="state">
+	<span style="color:#1e9fff" onclick="doCheck()">check</span>
+</script>
+<script type="text/html" id="upload">
+	{{ formatNumber(d.upload,2) }}
+</script>
+<script type="text/html" id="download">
+	{{ formatNumber(d.download,2) }}
+</script>
+<script type="text/html" id="total">
+	{{ formatNumber(d.total,2) }}
+</script>
+<script type="text/html" id="no_proxy">
+	{{ formatNumber(d.no_proxy,2) }}
+</script>
+<script>
+	const boxs = document.querySelectorAll('.layui-table input[type="checkbox"]');
+	let beginChecked;
+	function handleCheck(e) {
+		let inBetween = false;
+		if (e.shiftKey && this.checked) {
+			boxs.forEach(input => {
+				if (input === beginChecked || input === this) {
+					inBetween = !inBetween;
+				}
+				if (inBetween) {
+					input.checked = true;
+				}
+			});
+		}
+		beginChecked = this;
+	}
+	boxs.forEach(box => box.addEventListener('click', handleCheck));
+</script>
+<script>
+layui.extend({
+	common: '../modules/common'
+});
+layui.use(['table','form','laydate','util','common'], function(){
+	var $ = layui.jquery
+		,table = layui.table
+		,form = layui.form
+		,laydate = layui.laydate
+		,util = layui.util		
+		,common = layui.common;
+	
+	var server = common.get_server_ip();
+	var server_ip = common.get_device_ip();
+	var user;
+	user = JSON.parse(localStorage.getItem("user"));
+	if(user == null){
+		window.location.href='../login.html';  
+	}
+	
+	var proxy_ports_url = server + "sv5-server/get_page/" + user.user_id;
+	var proxy_ports = table.render({
+		elem: '#proxy_ports'
+		,id: 'proxy_ports'
+		,title: 'Port'
+		,height: 'full-115'
+		,url: proxy_ports_url
+		,page: {
+			layout: ['prev', 'page', 'next', 'skip', 'count','limit'],
+		}
+		,limit:50
+		,limits:[50,100,200]
+		,skin:'nob'
+		,text: {none: 'No Data'}
+		,request: {
+		  pageName: 'page_index',
+		  limitName: 'page_size'
+		}
+		,toolbar: '#toolbarDemo'
+		,defaultToolbar:[{title: 'Batch Refresh',layEvent: 'LAYTABLE_REFRESH',icon: 'layui-icon-refresh-3'},{title: 'Batch Delete',layEvent: 'LAYTABLE_DELETE',icon: 'layui-icon-delete'},{title: 'Search',layEvent: 'LAYTABLE_SEARCH',icon: 'layui-icon-search'},{title: 'Filter Columns',layEvent: 'LAYTABLE_COLS',icon: 'layui-icon-eye'},{title: 'Export',layEvent: 'LAYTABLE_DAOCHU',icon: 'layui-icon-export'}]
+		,cols: [[
+			{checkbox: true,ignoreExport: true}
+			,{field: 'actions', title: 'Actions', width:110,align:'center', toolbar: '#barActions',ignoreExport: true}
+			,{field: 'port', title: 'Port', width:100,align:'center'}
+			,{field: 'auth', title: 'Authentic', width:180,align:'center'}
+			,{field: 'zone', title: 'Zone', width: 100,align:'center'}
+			,{field: 'proxy_area', title: 'Region', minWidth:170,align:'left', templet: '#proxy_area'}		
+			,{field: 'whitelist', title: 'Whitelist', minWidth: 150,align:'left',templet: '#whitelist'}		
+			,{field: 'noproxylist', title: 'ByPassList', minWidth: 150,align:'left',templet: '#noproxylist'}
+			,{field: 'proxy_sticky', title: 'StickyTime', width: 110,align:'center', templet: '#proxy_sticky'}
+			,{field: 'proxy_platform', title: 'Source', width:150,align:'center'}
+			,{field: 'state', title: 'Status', width: 100,align:'center', templet: '#state'}
+			,{field: 'last_start', title: 'Last update', minWidth:160,align:'center'}
+		]],
+		error: function(res){
+			var errorText = 'Data loading failed!';
+			if (res.status === 404) {
+				errorText = 'The data interface does not exist!';
+			} else if (res.status === 500) {
+				errorText = 'Server error!';
+			}
+			$('.layui-table-main .layui-none').text(errorText);
+		},
+		parseData: function(res){
+			return {
+				"code": 0,
+				"msg": res.message,
+				"count": res.data.total,
+				"data": res.data.list
+			};
+		},
+		done: function(){
+			var lastCheckedIndex = -1;
+			table.on('checkbox(proxy_ports)', function(obj){
+				var isChecked = obj.checked;
+				var rowIndex = obj.index;
+				if (event.shiftKey && lastCheckedIndex !== -1) {
+					var start = Math.min(lastCheckedIndex, rowIndex);
+					var end = Math.max(lastCheckedIndex, rowIndex);
+					console.log(start + "" + end);
+					for (var i = start + 1; i < end; i++) {
+						if (isChecked) {
+							table.setRowChecked('proxy_ports', {
+								index: i,
+							});
+						} else {
+							table.setRowChecked('proxy_ports', {
+								index: i,
+								checked: false
+							});
+						}
+					}
+				}
+				lastCheckedIndex = rowIndex;
+			});
+		}
+	});
+	
+	window.change_iframe = function(elem){		
+		var parentElem = window.parent.$(elem);
+		parentElem.click();
+	}
+	
+	window.doCheck = function(){
+		$.ajax({
+			url: "http://ip-api.com/json",
+			method: "GET",
+			success: function(res) {
+				if(res.status == "success"){
+					var title = res.query;
+					parent.layer.msg(title);
+				}else{
+					parent.layer.msg(res.message);
+				}
+			}
+		});
+	}
+	
+	table.on('toolbar(proxy_ports)', function(obj){
+		var id = obj.config.id;
+		var checkStatus = table.checkStatus(id);
+		var othis = lay(this);
+		switch(obj.event){
+		case 'LAYTABLE_REFRESH':
+			if(checkStatus.data.length == 0){
+				parent.layer.msg("Please select at least one item！");
+				break;
+			}		
+			var refresh_url = server + "sv5-server/refresh_proxy_chain_list";
+			doRefreshOrDelete(refresh_url,checkStatus,"POST","proxy_ports");
+		break;
+		case 'LAYTABLE_DELETE':
+			if(checkStatus.data.length == 0){
+				parent.layer.msg("Please select at least one item！");
+				break;
+			}
+			var delete_url = server + "sv5-server/delete_server_list";		
+			parent.layer.confirm('Are you sure delete these ports?', {icon: 3, title:'Warning', btn: ['Yes', 'No']}, function(index){
+				doRefreshOrDelete(delete_url,checkStatus,"POST","proxy_ports");
+				parent.layer.close(index);
+			});
+			
+		break;
+		case 'LAYTABLE_SEARCH':
+			doSearch();
+		break;
+		case 'LAYTABLE_DAOCHU':
+			var daochu_index = parent.layer.confirm('Are you sure you want to export the data?', {icon: 3, title:'Prompt', btn: ['Yes', 'No']}, function(index){
+				var data = table.cache['proxy_ports'];
+				var title = ['Port','Authentic','Zone','Region','Whitelist','ByPassList','StickyTime','Source','Status','Last update','Standard Proxy','Fingerprints Browser'];
+				var values = [];
+				$.each(data, function(index, obj) {
+					var sp_str = "Socks5://";
+					var fb_str = server_ip + ":" + obj.port;
+					if(obj.auth != ""){
+						sp_str = sp_str + obj.auth + "@";
+						fb_str = fb_str + ":" + obj.auth;
+					}
+					sp_str = sp_str + server_ip + ":" + obj.port;
+					values.push([obj.port,obj.auth,obj.zone,obj.proxy_area,obj.whitelist,obj.noproxylist,obj.proxy_sticky,obj.proxy_platform,obj.state,obj.last_start,sp_str,fb_str]);
+				});
+				table.exportFile(title, values, {
+					type: 'csv',
+					title: 'Ports'
+				});
+				parent.layer.close(daochu_index);
+			});
+		break;
+		};
+	});
+	
+	window.doRefreshOrDelete = function(url,checkStatus,method,elem){	
+		var values = [];
+		$.each(checkStatus.data, function(index, obj) {
+			values.push(obj.port);
+		});
+		var ports = values.join(',');
+		var data = {
+			user_id: user.user_id,
+			port_list:ports
+		}
+		doAjaxTableReload(url,method,elem,data);
+	}
+	
+	var search_param = "";
+	window.doSearch = function(){
+		var search_url = "./search.html";
+		if(search_param != ""){
+			var jsonString = JSON.stringify(search_param);
+			search_url = "./search.html?data=" + encodeURIComponent(jsonString);
+		}
+		var index_search = parent.layer.open({
+			type: 2,
+			title: ["Search", 'font-size:14px;font-weight:bold'],
+			area: ["620px","680px"],
+			content: search_url,
+			btn: ['Search','Reset','Cannel'],
+			btnAlign: 'l',
+			btn1: function (index, layero) {					
+				var body = parent.layer.getChildFrame('body', index).contents().serializeArray(); 
+				var data = common.serializeJson(body);
+				var array = [];
+				array.push(data['country']);
+				delete(data['country']);
+				array.push(data['state']);
+				delete(data['state']);
+				array.push(data['city']);
+				delete(data['city']);
+				array = array.filter(item => item);
+				var arrRegion = array.join('-');
+				data['area'] =  arrRegion;
+				search_param = data;
+				var serializeData = $.param(data);				
+				var url = server + "sv5-server/get_server_list/" + user.user_id + "?" + serializeData;
+				var settings = {
+					"url": url,
+					"method": "GET",
+					"timeout": 0
+				};
+				table.reload('proxy_ports', {
+					url: url
+				});
+				parent.layer.close(index_search);
+			},
+			btn2: function(index, layero, that){
+				var search_url = "./search.html";
+				search_param = "";
+				table.reload('proxy_ports', {
+					url: proxy_ports_url
+				});
+			},
+		});
+	}
+	
+	window.add_port = function(){
+		var index_add = parent.layer.open({
+			type: 2,
+			title: ["Add New Port", 'font-size:14px;font-weight:bold'],
+			area: ["620px","680px"],
+			content: "./add_port.html",
+			btn: ['submit','cannel'],
+			btnAlign: 'l',
+			yes: function (index, layero) {	
+				var body = parent.layer.getChildFrame('body', index).contents().serializeArray();
+				var data = common.serializeJson(body);
+				
+				var array = [];
+				array.push(data['country']);
+				delete(data['country']);
+				array.push(data['state']);
+				delete(data['state']);
+				array.push(data['city']);
+				delete(data['city']);				
+				array = array.filter(item => item);
+				
+				var arrRegion = array.join('-');
+				data['proxy_area'] =  arrRegion;
+				data['user_id'] =  user.user_id;
+				data['ports'] =  data['port'];
+				delete(data['port']);
+				
+				var url = server + "sv5-server/add_servers";
+				var settings = {
+					"url": url,
+					"method": "POST",
+					"timeout": 0,
+					"data": data
+				};
+				$.ajax(settings).done(function (add_server_res) {
+					if(add_server_res.success){
+						parent.layer.msg(add_server_res.message,{time: 1000}, function(){
+							table.reload('proxy_ports', {});
+							parent.layer.close(index_add);
+						}); 					
+					}else{
+						parent.layer.msg(add_server_res.message);
+					}
+				});
+			}
+		});
+	}
+	
+	window.doAjaxTableReload = function(url,method,elem,data){
+		if(method == "POST"){
+			var settings = {
+				"url": url,
+				"method": method,
+				"timeout": 0,
+				data:data
+			};
+		}else{
+			var settings = {
+				"url": url,
+				"method": method,
+				"timeout": 0,
+			};
+		}
+		
+		$.ajax(settings).done(function (res) {
+			if(res.success){
+				layer.msg(res.message,{time: 1000}, function(){
+					table.reload(elem, {});
+				}); 					
+			}else{
+				layer.msg(res.message);
+			}
+		});	
+	}
+	
+	table.on('tool(proxy_ports)', function(obj){
+		var data = obj.data;
+		if(obj.event === 'refresh'){
+			var url = server + "sv5-server/refresh_proxy_chain/" + user.user_id + "/" + data.port;
+			doAjaxTableReload(url,"GET","proxy_ports");
+		}else if(obj.event === 'copy'){
+			var str = "Socks5://";
+			if(data.auth != ""){
+				str = str + data.auth + "@";
+			}
+			str = str + server_ip + ":" + data.port;
+			if(common.copyToClipboard(str)){
+				parent.layer.msg('Successfully copied information!');
+			}else{
+				parent.layer.msg('This browser does not support clicking to copy to the clipboard!');
+			}
+		}else if(obj.event === 'start'){
+			var url = server + "sv5-server/start_server/" + user.user_id + "/" + data.port;
+			doAjaxTableReload(url,"GET","proxy_ports");
+		}else if(obj.event === 'stop'){
+			var url = server + "sv5-server/stop_server/" + user.user_id + "/" + data.port;
+			doAjaxTableReload(url,"GET","proxy_ports");
+		}else if(obj.event === 'edit'){
+			var jsonString = JSON.stringify(data);			
+			var url = './edit_port.html?data=' + encodeURIComponent(jsonString);			
+			var index_edit = parent.layer.open({
+				type: 2,
+				title: ["Update Port Management", 'font-size:14px;font-weight:bold'],
+				area: ["620px","680px"],
+				content: url,
+				btn: ['submit','cannel'],
+				btnAlign: 'l',
+				yes: function (index, layero) {	
+					var body = parent.layer.getChildFrame('body', index).contents().serializeArray();	
+					var data = common.serializeJson(body);
+					var array = [];
+					array.push(data['country']);
+					delete(data['country']);
+					array.push(data['state']);
+					delete(data['state']);
+					array.push(data['city']);
+					delete(data['city']);
+					array = array.filter(item => item);
+					var arrRegion = array.join('-');
+					data['proxy_area'] =  arrRegion;
+					data['user_id'] =  user.user_id;
+					var url = server + "sv5-server/update_server";
+					var settings = {
+						"url": url,
+						"method": "POST",
+						"timeout": 0,
+						"data": data
+					};
+					$.ajax(settings).done(function (add_server_res) {
+						if(add_server_res.success){
+							parent.layer.msg(add_server_res.message,{time: 1000}, function(){
+								table.reload('proxy_ports', {});
+								parent.layer.close(index_edit);
+							}); 					
+						}else{
+							parent.layer.msg(add_server_res.message);
+						}
+					});
+				}
+			});
+		}else if(obj.event === 'delete'){
+			var url = server + "sv5-server/delete_server/" + user.user_id + "/" + data.port;
+			parent.layer.confirm('Are you sure delete the port?', {icon: 3, title:'Warning', btn: ['Yes', 'No']}, function(index){
+				doAjaxTableReload(url,"DELETE","proxy_ports");
+				parent.layer.close(index);
+			});
+		}
+	});
+	
+	
+	var currentDate = new Date(); 
+	var year = currentDate.getFullYear(); 
+	var month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
+	var day = String(currentDate.getDate()).padStart(2, '0');
+	
+	var cur_date = year + '-' + month + '-' + day;
+	var statistics_url = server + "sv5-statistics/get_statistics_with_port/" + user.user_id + "/" + cur_date + "?end_date=" + cur_date;
+	var statistics = table.render({
+		elem: '#statistics'
+		,title: 'Statistics'
+		,height: 'full-165'
+		,url: statistics_url
+		,page: false
+		,skin:'nob'
+		,text: {none: 'No Data'}
+		,cols: [[
+			{field: 'port', title: 'Port',minWidth:90,align:'center'}
+			,{field: 'upload', title: 'Upload',minWidth:90,align:'center', templet: '#upload'}
+			,{field: 'download', title: 'Download',minWidth:110,align:'center', templet: '#download'},
+			,{field: 'total', title: 'Total',minWidth:90,align:'center', templet: '#total'}
+			,{field: 'no_proxy', title: 'BypassTraffic',minWidth:140,align:'center', templet: '#no_proxy'}
+		]],
+		error: function(res){
+			var errorText = 'Data loading failed!';	
+			if (res.status === 404) {
+				errorText = 'The data interface does not exist!';
+			} else if (res.status === 500) {
+				errorText = 'Server error!';
+			}
+			$('.layui-table-main .layui-none').text(errorText);
+		},
+		parseData: function(res){
+			return {
+				"code": 0,
+				"msg": res.message,
+				"count": res.total,
+				"data": res.data
+			};
+		}
+	});
+	
+	$("#ID-laydate").val(cur_date + " ~ " + cur_date);
+	laydate.render({
+		elem: '#ID-laydate',
+		lang: 'en',
+		type: 'date',
+		range: '~',
+		max: cur_date,
+		done: function(value, date, endDate){
+			if(value != ""){
+				var arr = value.split(" ~ ");
+				var date_url = server + "sv5-statistics/get_statistics_with_port/" + user.user_id + "/" + arr[0] + "?end_date=" + arr[1];
+				table.reload('statistics', {
+					url:date_url
+				});
+			}
+		}
+	});
+	
+	window.statistics_export = function(){
+		var daochu_index = parent.layer.confirm('Are you sure you want to export the data?', {icon: 3, title:'Prompt', btn: ['Yes', 'No']}, function(index){
+			table.exportFile('statistics');
+			parent.layer.close(daochu_index);
+		});
+	}
+	
+	window.formatNumber = function(num, n) {
+	    const units = ["B", "KB", "MB", "GB", "TB"];
+	    let unitIndex = 0;
+	    while (num >= 1000 && unitIndex < units.length) {
+	        num /= 1000;
+	        unitIndex++;
+	    }
+	    const roundedNum = num.toFixed(n);
+	    return `${roundedNum}${units[unitIndex]}`;
+	}
+});
+</script>
+</body>
+</html>

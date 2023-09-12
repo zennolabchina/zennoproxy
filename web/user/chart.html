@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <script src="../layui/layui.js"></script>
+	<script src="../js/echarts.min.js"></script>
+	<script src="../modules/xm-select.js"></script>
+</head>
+<style>
+	.layui-fluid{ margin-top: 25px;}
+	.liuliang .title{width:100%; height: 40px; line-height: 40px; font-size: 20px; font-weight: bold; margin-top: 10px;}
+	.liuliang .last_time{width:100%; height: 20px; line-height: 20px; color: #666;}
+	.liuliang .right i{font-size: 24px; font-weight: bold; color:#a233c6;}
+	.liuliang .right .total{font-size: 24px; font-weight: bold; color:#a233c6; height: 50px; line-height: 50px;}
+</style>
+<body>
+<div class="layui-fluid">  
+	<div class="layui-form layui-row layui-col-space15">
+		<div class="layui-col-md8 liuliang">
+			<div class="layui-card">
+				<div class="layui-card-body">
+					<div class="layui-row">
+						<div class="layui-col-md8">
+							<div class="title"><span>Active plan</span></div>
+						</div>	
+						<div class="layui-col-md4">
+							<select id="platform" lay-filter="platform">
+								<option value="">No data</option>
+							</select>
+						</div>
+					</div>
+					<div class="last_time"></div>
+					<div class="layui-row">
+						<div class="layui-col-md9">
+							<div id="box" style="width:100%; height:650px;"></div>						
+						</div> 
+						<div class="layui-col-md3 right">
+							<div style="width: 70%;height: 50px; line-height: 50px; padding-top:250px; display:block; border-bottom: 1px solid #e1e1e1; margin-right: 30%;">
+								<i class="layui-icon layui-icon-transfer"></i> 
+							</div>
+							<div style="width:100%;height: 50px; line-height: 50px; padding-bottom:250px; display:block;">
+								<i class="layui-icon layui-icon-wifi"></i> 
+								<span class="total"></span>
+							</div>			
+						</div>
+					</div>
+				</div>           
+			</div>
+		</div>
+		<div class="layui-col-md4">
+			
+		</div>
+	</div>
+</div>
+<script>
+layui.extend({
+	common: '../modules/common'
+});
+var value = [];
+layui.use(['form','common'], function(){
+	var $ = layui.$
+		,form = layui.form
+		,common = layui.common;
+	
+	var server = common.get_server_ip();
+	var user;
+	user = JSON.parse(localStorage.getItem("user"));
+	if(user == null){
+		window.location.href='../login.html';  
+	}
+		
+	var chart_settings = {
+	  "url": server + "sv5-flow/get/" + user.user_id,
+	  "method": "GET",
+	  "timeout": 0,
+	};
+	$.ajax(chart_settings).done(function (res) {
+		if(res.success){
+			value = res.data;
+			var selectHtml = '';
+			if(value.length > 0){
+				$.each(value, function(index, object) {
+					selectHtml += '<option value=' + index + '>' + object.platform + '</option>';
+				});	
+				$('#platform').html(selectHtml);
+				form.render('select'); 
+				
+				var data = value[0];
+				var used = Number(data.used);
+				var total = Number(data.total);
+				var percentage = data.used/data.total*100;
+				$(".total").html(formatNumber(total,2));
+				show_charts(100,Number(percentage).toFixed(2));
+				$(".last_time").html(data.active_plan);
+			}else{
+				selectHtml += '<option value="">No data</option>';
+				$('#platform').html(selectHtml);
+				form.render('select'); 
+				show_charts(100,0);
+			}
+		}else{
+			selectHtml += '<option value="">No data</option>';
+			$('#platform').html(selectHtml); 
+			form.render('select'); 
+			show_charts(100,0);
+		}
+	});
+	
+	form.on('select(platform)', function(data){
+		var selectIndex = parseInt(data.value);		
+		var data = value[selectIndex];
+		var used = Number(data.used);
+		var total = Number(data.total);
+		var percentage = data.used/data.total*100;
+		$(".total").html(formatNumber(total,2));
+		show_charts(100,Number(percentage).toFixed(2));
+		$(".last_time").html(data.active_plan);
+	});
+	
+	window.formatNumber = function(num, n) {
+	    const units = ["B", "KB", "MB", "GB", "TB"];
+	    let unitIndex = 0;
+	    while (num >= 1000 && unitIndex < units.length) {
+	        num /= 1000;
+	        unitIndex++;
+	    }
+	    const roundedNum = num.toFixed(n);
+	    return `${roundedNum}${units[unitIndex]}`;
+	}
+	
+	window.show_charts = function(total_data,cur_data){
+		var dom = document.getElementById('box');
+		
+		var myChart = echarts.init(dom, null, {
+		      renderer: 'canvas',
+		      useDirtyRect: false
+		    });
+			
+		var app = {};		    
+		var option;
+		
+		option = {
+		  series: [
+		    {
+		      type: 'gauge',
+			  min: 0,
+			  max: total_data,
+		      axisLine: {
+		        lineStyle: {
+		          width: 30,
+		          color: [
+		            [0.3, '#67e0e3'],
+		            [0.7, '#1e9fff'],
+		            [1, '#fd666d']
+		          ]
+		        }
+		      },
+		      pointer: {
+		        itemStyle: {
+		          color: 'auto'
+		        }
+		      },
+		      axisTick: {
+		        distance: -30,
+		        length: 8,
+		        lineStyle: {
+		          color: '#fff',
+		          width: 2
+		        }
+		      },
+		      splitLine: {
+		        distance: -30,
+		        length: 30,
+		        lineStyle: {
+		          color: '#fff',
+		          width: 4
+		        }
+		      },
+		      axisLabel: {
+		        color: 'inherit',
+		        distance: 40
+		      },
+		      detail: {
+		        valueAnimation: true,
+				textStyle: {
+					fontSize: 20,
+				},
+		        formatter: 'Already Used: {value}%',
+				color: 'inherit'		      
+		      },
+		      data: [
+		        {
+		          value: cur_data
+		        }
+		      ]
+		    }
+		  ]
+		};
+		
+		if (option && typeof option === 'object') {
+		  myChart.setOption(option);
+		}
+	
+		window.addEventListener('resize', myChart.resize);
+	}
+});
+</script>
+</body>
+</html>

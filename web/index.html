@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html  class="loginHtml">
+<head>
+    <meta charset="UTF-8"/>
+	<title>login</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+	<link href="./favicon.png" rel="shortcut icon" type="image/x-icon"/>
+    <link href="./layui/css/layui.css" rel="stylesheet">
+    <link href="./css/login.css" rel="stylesheet">
+    <script src="./layui/layui.js"></script>	
+</head>
+<body class="loginBody login">
+	<form class="layui-form" id="login-form" method="post">
+        <div class="login_face"><img src="./images/login_bg.png" class="userAvatar"></div>
+		<div class="layui-input-wrap">
+			<div class="layui-input-prefix">
+				<i class="layui-icon layui-icon-username"></i>
+			</div>
+			<input type="text" name="username" placeholder="user name" lay-verify="required" autocomplete="off" class="layui-input" lay-affix="clear">
+		</div>
+		<div class="layui-input-wrap">
+			<div class="layui-input-prefix">
+				<i class="layui-icon layui-icon-password"></i>
+			</div>
+			<input type="password" name="password" value="" lay-verify="required" placeholder="password" autocomplete="off" class="layui-input" id="reg-password" lay-affix="eye">
+		</div>
+		<div class="layui-input-wrap">
+			<div class="layui-input-prefix">
+				<i class="layui-icon layui-icon-vercode"></i>
+			</div>
+			<input type="text" id="captcha" name="captcha" placeholder="Code" lay-reqtext="Please fill in the verification code!" autocomplete="off" lay-verify="required" class="layui-input">
+			<div class="code" id="checkCode" onclick="createCode()"></div>
+		</div>
+		<div class="link">
+			<span>No account yet?Please</span><a href="./register.html" class="layui-link"> register</a>
+		</div>
+		<div class="layui-form-item">
+			<button class="layui-btn layui-btn-fluid" style="background-color:#00A1e7;" lay-filter="login" lay-submit="">log on</button>
+		</div>
+	</form>
+</body>
+<script>
+layui.extend({
+	common: './modules/common'
+});
+layui.use(['form','layer','common'],function(){	
+	var $ = layui.jquery
+		,layer = parent.layer === undefined ? layui.layer : top.layer
+		,form = layui.form
+		,common = layui.common;
+	
+	form.verify({
+		required: function(value){
+			if(value.length == 0){
+				return 'Required items cannot be empty!';
+			}
+		}
+	});
+	
+	var code;
+	window.createCode = function(){
+		code="";
+		var codeLength = 4;
+		var checkCode = document.getElementById("checkCode");
+		var codeChars = new Array(0,1,2,3,4,5,6,7,8,9,'a','b','c','d','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+		for(var i = 0;i < codeLength; i++){
+			var charNum = Math.floor(Math.random()*35);
+			code += codeChars[charNum];
+		}
+		if(checkCode){
+			checkCode.className = "code";
+			checkCode.innerHTML = code;
+		}
+	}
+	
+	$(document).ready(function(){
+	    createCode();
+	});
+	
+	window.doCheckCode= function(){
+		if(document.getElementById("captcha").value != code){			
+			createCode();
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	var server = common.get_login_ip();
+    form.on("submit(login)",function(res){
+		var value = res.field;
+		var url = server + 'user/login/' + value.username + '/' + value.password;
+		if(doCheckCode()){
+			var settings = {
+			  "url": url,
+			  "method": "GET",
+			  "timeout": 0,
+			};			
+			$.ajax(settings).done(function (res) {
+				if(res.success){				
+					var user = {
+						"user_id" :res.data.id,
+						"user_name": res.data.name,
+						"device_id": res.data.device_id,
+						"device_ip": res.data.device_ip,
+						"role": res.data.role
+					}	
+					layer.msg(res.message,{time: 1000}, function(){						
+						// localStorage.setItem('user', JSON.stringify(user));
+						// window.location.href='./user/index.html';  
+						if(res.data.role == 1){
+							localStorage.setItem('admin', JSON.stringify(user));
+							window.location.href='./admin/user_manage.html';  
+						}else{
+							localStorage.setItem('user', JSON.stringify(user));
+							window.location.href='./user/index.html';  
+						}
+					});
+				}else{
+					layer.msg(res.message);
+				}
+			});
+		}else{
+			layer.msg("Verification code error!");
+		}
+		return false;  
+    })
+	
+	$(".loginBody .layui-input-wrap").click(function(e){
+	    e.stopPropagation();
+	    $(this).addClass("layui-input-focus").find(".layui-input").focus();
+	})
+	
+	$(".loginBody .layui-input-wrap .layui-input").focus(function(){
+	    $(this).parents('.layui-input-wrap').addClass("layui-input-focus");
+	})
+	
+	$(".loginBody .layui-input-wrap .layui-input").blur(function(){
+	    $(this).parents('.layui-input-wrap').removeClass("layui-input-focus");
+	    if($(this).val() != ''){
+	        $(this).parents('.layui-input-wrap').addClass("layui-input-active");
+	    }else{
+	        $(this).parents('.layui-input-wrap').removeClass("layui-input-active");
+	    }
+	})
+	
+});
+</script>
+</html>

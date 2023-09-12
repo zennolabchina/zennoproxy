@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/xadmin-while.css">
+    <script src="../layui/layui.js"></script>
+</head>
+<style>
+	 body{padding-top: 50px;}
+	.layui-table-view{border: none;}
+</style>
+<body>
+<div class="layui-fluid">
+	<div class="layui-row layui-col-space15">
+		<div class="layui-col-xs4">
+			<div class="table">
+				<div class="line">
+					<div class="layui-row">
+						<div class="layui-col-xs6 table_title">Zone</div>
+						<div class="layui-col-xs6 icon">
+							<a href="####" class="layui-btn layui-bg-blue layui-btn-sm layui-btn-radius" onclick="add_zone()"><i class="layui-icon layui-icon-add-circle"></i>Add</a>
+						</div>
+					</div>	
+				</div>
+				<table id="zone" lay-filter="zone"></table>
+			</div>
+		</div>
+		<div class="layui-col-xs4">
+			<div class="table">
+				<div class="line">
+					<div class="layui-row">
+						<div class="layui-col-xs6 table_title">Whitelist</div>
+						<div class="layui-col-xs6 icon">
+							<a href="####" class="layui-btn layui-bg-blue layui-btn-sm layui-btn-radius" onclick="add_Whitelist()"><i class="layui-icon layui-icon-add-circle"></i>Add</a>
+						</div>
+					</div>	
+				</div>
+				<table id="whitelist" lay-filter="whitelist"></table>
+			</div>
+		</div>
+		<div class="layui-col-xs4">
+			<div class="table">
+				<div class="line">
+					<div class="layui-row">
+						<div class="layui-col-xs6 table_title">ByPassList</div>
+						<div class="layui-col-xs6 icon">
+							<a href="####" class="layui-btn layui-bg-blue layui-btn-sm layui-btn-radius" onclick="add_ByPassList()"><i class="layui-icon layui-icon-add-circle"></i>Add</a>
+						</div>
+					</div>	
+				</div>
+				<table id="ByPassList" lay-filter="ByPassList"></table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/html" id="barActions">
+	<div class="barActions">
+	<a href="####" lay-event="delete" title="delete"><i class="layui-icon layui-icon-clear"></i></a>
+	</div>
+</script>
+<script>
+layui.extend({
+	common: '../modules/common'
+});
+layui.use(['table','form','common'], function(){
+	var $ = layui.jquery
+		,table = layui.table
+		,form = layui.form
+		,common = layui.common;
+	
+	var server = common.get_server_ip();
+	var user;
+	user = JSON.parse(localStorage.getItem("user"));
+	if(user == null){
+		window.location.href='../login.html';  
+	}
+	
+	var zone_url = server + "sv5-server/get_zone_list/" + user.user_id;	
+	var zone = table.render({
+		elem: '#zone'
+		,height: 'full-300'
+		,url: zone_url
+		,page: false
+		,skin:'nob'
+		,text: {none: 'No Data'}
+		,cols: [[ 
+			{checkbox: true}
+			,{field: 'actions', title: 'Actions',align:'center', toolbar: '#barActions'}
+			,{field: 'zone', title: 'Zone',align:'center'}
+		]],
+		error: function(res){
+			var errorText = 'Data loading failed!'; 
+			if (res.status === 404) {
+				errorText = 'The data interface does not exist!';
+			} else if (res.status === 500) {
+				errorText = 'Server error!';
+			}
+			$('.layui-table-main .layui-none').text(errorText);
+		},
+		parseData: function(res){
+			return {
+				"code": 0,
+				"msg": res.message,
+				"count": res.total,
+				"data": res.data
+			};
+		}
+	});
+	
+	window.add_zone = function(){
+		add("Add Zone","add_zone","GET","zone");
+	}
+	
+	window.add_Whitelist = function(){
+		add("Add Whitelist","add_whitelist","GET","whitelist");
+	}
+	
+	window.add_ByPassList = function(){
+		add("Add ByPassList","add_noproxylist","GET","ByPassList");
+	}
+	
+	window.add = function(title,type,method,table_name){
+		var index_add = layer.open({
+			type: 1,
+			title: [title, 'font-size:14px;font-weight:bold'],
+			area: ["360px","175px"],
+			offset: '20%',
+			resize: false,
+			shade:0.1,
+			content: `
+				<form class="layui-form" style="padding-top: 15px;">
+					<div class="layui-fluid dialog_index">						
+						<div class="layui-input-wrap">
+							<div class="layui-input-prefix">
+								<i class="layui-icon layui-icon-component"></i>
+							</div>
+							<input type="text" name="col_value" autocomplete="off" class="layui-input" lay-affix="clear">
+						</div>
+						<div class="layui-form-item">
+							<button class="layui-btn" lay-filter="add_data" lay-submit="">submit</button>
+						</div>					
+					</div>
+				</form>	
+			`,
+			success: function(){
+				form.render();
+				
+				form.on('submit(add_data)', function(data){
+					var value = data.field;
+					if(value.col_value.length == 0){
+						parent.layer.msg("Required items cannot be empty!",{time: 1500,icon: 2});
+						$("input[name='col_value']").focus();
+						return false;
+					}
+					var url = server + 'sv5-server/' + type + '/' + user.user_id + '/' + value.col_value;
+					doAjaxTableReload(url,method,table_name,index_add);
+					return false;
+				});
+			}
+		});
+	}
+	
+	var whitelist_url = server + "sv5-server/get_whitelist_list/" + user.user_id;
+	var whitelist = table.render({
+		elem: '#whitelist'
+		,height: 'full-300'
+		,url: whitelist_url
+		,page: false
+		,skin:'nob'
+		,text: {none: 'No Data'}
+		,cols: [[
+			{checkbox: true}
+			,{field: 'actions', title: 'Actions',align:'center', toolbar: '#barActions'}
+			,{field: 'whitelist', title: 'Whitelist',align:'center'}
+		]],
+		error: function(res){
+			var errorText = 'Data loading failed!';	
+			if (res.status === 404) {
+				errorText = 'The data interface does not exist!';
+			} else if (res.status === 500) {
+				errorText = 'Server error!';
+			}
+			$('.layui-table-main .layui-none').text(errorText);
+		},
+		parseData: function(res){
+			return {
+				"code": 0,
+				"msg": res.message,
+				"count": res.total,
+				"data": res.data
+			};
+		}
+	});
+	
+	var ByPassList_url = server + "sv5-server/get_noproxylist_list/" + user.user_id;
+	var ByPassList = table.render({
+		elem: '#ByPassList'
+		,height: 'full-300'
+		,url: ByPassList_url
+		,page: false
+		,skin:'nob'
+		,text: {none: 'No Data'}
+		,cols: [[
+			{checkbox: true}
+			,{field: 'actions', title: 'Actions',align:'center', toolbar: '#barActions'}
+			,{field: 'noproxylist', title: 'ByPassList',align:'center'}
+		]],
+		error: function(res){
+			var errorText = 'Data loading failed!';
+			if (res.status === 404) {
+				errorText = 'The data interface does not exist!';
+			} else if (res.status === 500) {
+				errorText = 'Server error!';
+			}
+			$('.layui-table-main .layui-none').text(errorText);
+		},
+		parseData: function(res){
+			return {
+				"code": 0,
+				"msg": res.message,
+				"count": res.total,
+				"data": res.data
+			};
+		}
+	});
+	
+	window.doAjaxTableReload = function(url,method,elem,index){
+		var settings = {
+			"url": url,
+			"method": method,
+			"timeout": 0,
+		};
+		$.ajax(settings).done(function (res) {
+			if(res.success){
+				layer.msg(res.message,{time: 1000}, function(){					
+					table.reload(elem, {});
+					if(index != ''){
+						layer.close(index);
+					}
+				}); 					
+			}else{
+				layer.msg(res.message);
+			}
+		});	
+	}
+	
+	table.on('tool(zone)', function(obj){
+		var data = obj.data;
+		if(obj.event === 'delete'){
+			var url = server + "sv5-server/delete_zone/" + user.user_id + "/" + data.zone;
+			parent.layer.confirm('Are you sure you want to delete it?', {icon: 3, title:'Warning', btn: ['Yes', 'No']}, function(index){
+				doAjaxTableReload(url,"DELETE","zone");
+				parent.layer.close(index);
+			});
+		}
+	});
+	
+	table.on('tool(whitelist)', function(obj){
+		var data = obj.data;
+		if(obj.event === 'delete'){
+			var url = server + "sv5-server/delete_whitelist/" + user.user_id + "/" + data.whitelist;
+			parent.layer.confirm('Are you sure you want to delete it?', {icon: 3, title:'Warning', btn: ['Yes', 'No']}, function(index){
+				doAjaxTableReload(url,"DELETE","whitelist");
+				parent.layer.close(index);
+			});
+		}
+	});
+	
+	table.on('tool(ByPassList)', function(obj){
+		var data = obj.data;
+		if(obj.event === 'delete'){
+			var url = server + "sv5-server/delete_noproxylist/" + user.user_id + "/" + data.noproxylist;
+			parent.layer.confirm('Are you sure you want to delete it?', {icon: 3, title:'Warning', btn: ['Yes', 'No']}, function(index){
+				doAjaxTableReload(url,"DELETE","ByPassList");
+				parent.layer.close(index);
+			});
+		}
+	});
+	
+});
+</script>
+</body>
+</html>
