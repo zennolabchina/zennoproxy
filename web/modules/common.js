@@ -4,7 +4,7 @@ layui.define(['layer','table'],function(exports){
 		,table = layui.table;
 	var obj = {	
 		get_login_ip: function(){
-			return 'http://127.0.0.1:12569';
+			return 'http://127.0.0.1:12569/';
 		}, 
 		get_server_ip: function(){
 			var user = JSON.parse(localStorage.getItem("user"));
