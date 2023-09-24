@@ -90,7 +90,7 @@ layui.define(['layer','table'],function(exports){
 				data: arr
 			})
 		},
-		setXmSelectInit:function(select,res,initValue,nuit = ''){
+		setXmSelectInit:function(select,res,initValue,nuit = '',disabled = false){
 			var arr = [];
 			$.each(res, function(index, object) {
 				var obj = {
@@ -101,7 +101,7 @@ layui.define(['layer','table'],function(exports){
 			});
 			var whitelist_arr = initValue.split(",");
 			select.update({
-				disabled: false,
+				disabled: disabled,
 				data: arr,
 				initValue: whitelist_arr
 			})

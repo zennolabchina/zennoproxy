@@ -10,13 +10,24 @@
     <script src="../layui/layui.js"></script>
 </head>
 <style>
-	 body{padding: 0; margin: 0;}
+	body{padding: 0; margin: 0;}
 	.layui-table-view{border: none;}
+	.layui-fluid{padding-top: 10px;}
+	.layui-fluid .layui-form{padding-bottom: 10px;}
 </style>
 <body>
+<div class="x-nav">
+	<span class="layui-breadcrumb">
+		<a><cite>Homepage</cite></a> 
+		<a><cite>User Manager</cite></a>
+	</span>
+	<a class="layui-btn layui-btn-xs" onclick="location.reload()" title="Refresh">
+		<i class="layui-icon layui-icon-refresh-3"></i>
+	</a>
+</div>
 <div class="layui-fluid">
 	<div class="layui-row">
-		<div class="table">			
+		<div class="table">
 			<table id="users" lay-filter="users"></table>
 		</div>
 	</div>
@@ -51,7 +62,7 @@ layui.use(['table','form','common'], function(){
 	var users_url = server + "user/get_page/" + user.user_id;
 	var user_manage = table.render({
 		elem: '#users'
-		,height: 'full-45'
+		,height: 'full-95'
 		,url: users_url
 		,page: {
 			layout: ['prev', 'page', 'next', 'skip', 'count','limit'],
@@ -65,8 +76,7 @@ layui.use(['table','form','common'], function(){
 		  limitName: 'page_size'
 		}
 		,cols: [[
-			{checkbox: true}
-			,{field: 'actions', title: 'Actions',width:260,align:'center', toolbar: '#barActions'}
+			{field: 'actions', title: 'Actions',width:260,align:'center', toolbar: '#barActions'}
 			,{field: 'name', title: 'User Name',align:'center'}
 			,{field: 'port_range', title: 'Port Range',align:'center'}
 			,{field: 'role', title: 'Role',width:80,align:'center'}

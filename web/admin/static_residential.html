@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/xadmin-while.css">
+    <script src="../layui/layui.js"></script>
+</head>
+<style>
+	 body{padding: 0; margin: 0; background-color: #fff;}
+	 .layui-table-view{border: none;}
+	 .layui-fluid{padding-top: 10px;}
+	 .layui-fluid .layui-form{padding-bottom: 10px; background-color: #fff; }
+	 .x-nav{border-bottom: 1px solid #EFEEF0;}
+	 .layui-form-label{width:220px; font-weight: bold; font-size: 16px;}
+	 .layui-input-block{margin-left: 250px;}
+	 .layui-input-block p{font-size: 14px; margin-top: 5px; line-height: 18px; color: #aaa;}
+	 .dialog .layui-row{border-top: 1px solid #EFEEF0;}
+</style>
+<body>
+<div class="x-nav">
+	<span class="layui-breadcrumb">
+		<a><cite>Homepage</cite></a> 
+		<a><cite>Static Residential</cite></a>
+	</span>
+	<a class="layui-btn layui-btn-xs" onclick="location.reload()" title="Refresh">
+		<i class="layui-icon layui-icon-refresh-3"></i>
+	</a>
+</div>
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-col-xs9">
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<label class="layui-form-label">Demand Country</label>
+					<div class="layui-input-block">
+						<select name="country">
+							<option value="">Please select</option>
+							<option value="US">US</option>
+							<option value="GB">GB</option>
+							<option value="FR">FR</option>
+						</select>
+						<p>The internal networks of instances in different regions are not interconnected with each other; Choosing a location close to you can reduce network latency and improve your access speed.</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">Number of IP purchases</label>
+					<div class="layui-inline">
+						<div class="layui-input-inline layui-input-wrap">
+							<input type="number" name="num" lay-affix="number" placeholder="" value="1" step="1" min="1" max="1000" class="layui-input layui-disabled" readonly lay-filter="*">
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">IP purchase duration</label>
+					<div class="layui-input-block">
+						<input type="radio" name="duration" value="30 days" title="30 days" checked>
+						<input type="radio" name="duration" value="60 days" title="60 days">
+						<input type="radio" name="duration" value="90 days" title="90 days">
+						<input type="radio" name="duration" value="120 days" title="120 days">
+						<input type="radio" name="duration" value="180 days" title="180 days">
+						<input type="radio" name="duration" value="270 days" title="270 days">
+						<input type="radio" name="duration" value="1 year" title="1 year">
+						<input type="radio" name="duration" value="2 year" title="2 year">
+					</div>
+				</div>				
+				<div class="layui-form-item">
+					<label class="layui-form-label">Agency Agreement</label>
+					<div class="layui-input-block">
+						<input type="radio" name="agency_agreement" value="socks5" title="Socks5" checked>
+						<input type="radio" name="agency_agreement" value="http" title="Http(Supports Https traffic)">
+						<p>If you have specific requirements for line usage scenarios, you can obtain line IPs that have undergone quality screening for your business by defining the business scope.</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">Target Business Purpose</label>
+					<div class="layui-input-block">
+						<select name="purpose">
+							<option value="">Please select</option>
+							<option value="Paypal">Paypal</option>
+							<option value="Depop">Depop</option>
+							<option value="Allegro.pl">Allegro.pl</option>
+						</select>
+						<p>If you have specific requirements for line usage scenarios, you can obtain line IPs that have undergone quality screening for your business by defining the business scope.</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">IP Authorization Type</label>
+					<div class="layui-input-block">
+						<input type="radio" name="type" value="exclusive" title="Exclusive" checked>
+						<p>Only provide high-quality exclusive IP.</p>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">unit-price</label>
+					<div class="layui-input-group">
+						<div class="layui-input-split layui-input-prefix">
+						$
+						</div>
+						<input type="text" name="unit_price" class="layui-input" value="35" disabled>
+						<div class="layui-input-split layui-input-suffix">
+						strip
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">Total price</label>
+					<div class="layui-input-group">
+						<div class="layui-input-split layui-input-prefix">
+						$
+						</div>
+						<input type="text" name="total_price" class="layui-input" value="35" disabled>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button type="submit" class="layui-btn" id="purchase" lay-submit lay-filter="purchase">Confirm purchase</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+layui.extend({
+	common: '../modules/common'
+});
+layui.use(['form','common'], function(){
+	var $ = layui.jquery
+		,form = layui.form
+		,common = layui.common;
+	
+	var user;
+	user = JSON.parse(localStorage.getItem("admin"));
+	if(user == null){
+		window.location.href='../login.html';  
+	}
+	
+	form.on('submit(purchase)',function(data){
+		$("#purchase").addClass("layui-hide");		
+		var field = data.field;
+		var arr = {"agent_type": "Static Residential"};
+		$.extend(field, arr);
+		var jsonString = JSON.stringify(field);
+		url = "./confirm_dialog.html?data=" + encodeURIComponent(jsonString);
+		var index_dialog = parent.layer.open({
+			type: 2,
+			title: ["Please confirm your order", 'font-size:14px;font-weight:bold'],
+			area: ["600px","650px"],
+			content: url,
+			btn: ['Confirm purchase','Cannel'],
+			btnAlign: 'l',
+			btn1: function (index, layero) {
+				
+				console.log(field);
+				$("#purchase").removeClass("layui-hide");
+				parent.layer.close(index_dialog);
+			},
+			btn2: function(index, layero, that){
+				$("#purchase").removeClass("layui-hide");
+			},
+			cancel: function(index, layero, that){
+				$("#purchase").removeClass("layui-hide");
+			}
+		});
+		return false;
+	});
+	
+	form.on('input-affix(*)', function(data){
+		var num = $("input[name='num']").val();
+		var price = $("input[name='unit_price']").val();
+		var total_price = num*price;
+		$("input[name='total_price']").val(total_price);
+	});
+});
+</script>
+</body>
+</html>

@@ -11,9 +11,20 @@
 </head>
 <style>
 	 body{padding: 0; margin: 0;}
-	.layui-table-view{border: none;}
+	 .layui-table-view{border: none;}
+	 .layui-fluid{padding-top: 10px;}
+	 .layui-fluid .layui-form{padding-bottom: 10px;}
 </style>
 <body>
+<div class="x-nav">
+	<span class="layui-breadcrumb">
+		<a><cite>Homepage</cite></a> 
+		<a><cite>Traffic management</cite></a>
+	</span>
+	<a class="layui-btn layui-btn-xs" onclick="location.reload()" title="Refresh">
+		<i class="layui-icon layui-icon-refresh-3"></i>
+	</a>
+</div>
 <div class="layui-fluid">
 	<div class="layui-row">
 		<div class="table">
@@ -56,7 +67,7 @@ layui.use(['table','form','element','common'], function(){
 	var users_url = server + "sv5-flow/get_page/" + user.user_id;
 	var user_manage = table.render({
 		elem: '#users'
-		,height: 'full-80'
+		,height: 'full-95'
 		,url: users_url
 		,page: {
 			layout: ['prev', 'page', 'next', 'skip', 'count','limit'],
@@ -71,8 +82,7 @@ layui.use(['table','form','element','common'], function(){
 		}
 		,cols: [[
 			{field: 'actions', title: 'Actions',width:260,align:'center', toolbar: '#barActions'}
-			,{field: 'id', title: 'ID',align:'center'}
-			,{field: 'user_id', title: 'Customer',align:'center'}
+			,{field: 'user_name', title: 'User Name',align:'center'}
 			,{field: 'total', title: 'Total',align:'center', templet: '#total'}
 			,{field: 'usage', title: 'Usage',align:'center', templet: '#usage'}
 			,{field: 'active_plan', title: 'Active Plan',align:'center'}

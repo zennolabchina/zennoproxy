@@ -101,6 +101,13 @@ layui.use(['form','common'], function(){
 		name: "proxy_platform",
 		tips: 'Please select',
 		filterable: true, 
+		type: 'block',
+		model: {
+			icon: 'hidden',
+			label: {
+				type: 'text'
+			}
+		},
 		filterMethod: function(val, item, index, prop){
 			var value = val.toLowerCase();
 			if(value == item.value){
@@ -285,7 +292,7 @@ layui.use(['form','common'], function(){
 	
 	common.getAjaxData( proxy_area_url,"GET",function(res) {
 		if(jsonData['proxy_platform'] != undefined){		
-			common.setXmSelectInit(select_source,res.data.platform_list,jsonData['proxy_platform']);
+			common.setXmSelectInit(select_source,res.data.platform_list,jsonData['proxy_platform'],'',true);
 		}
 		if(str_country != undefined){
 			common.setXmSelectInit(select_country,res.data.country_list,str_country);

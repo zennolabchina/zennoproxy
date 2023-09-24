@@ -184,13 +184,13 @@ layui.use(['table','form','laydate','util','common'], function(){
 			,{field: 'port', title: 'Port', width:100,align:'center'}
 			,{field: 'auth', title: 'Authentic', width:180,align:'center'}
 			,{field: 'zone', title: 'Zone', width: 100,align:'center'}
-			,{field: 'proxy_area', title: 'Region', minWidth:170,align:'left', templet: '#proxy_area'}		
-			,{field: 'whitelist', title: 'Whitelist', minWidth: 150,align:'left',templet: '#whitelist'}		
-			,{field: 'noproxylist', title: 'ByPassList', minWidth: 150,align:'left',templet: '#noproxylist'}
+			,{field: 'proxy_area', title: 'Region', width:270,align:'left', templet: '#proxy_area'}		
+			,{field: 'whitelist', title: 'Whitelist', width:200,align:'left',templet: '#whitelist'}		
+			,{field: 'noproxylist', title: 'ByPassList', width:200,align:'left',templet: '#noproxylist'}
 			,{field: 'proxy_sticky', title: 'StickyTime', width: 110,align:'center', templet: '#proxy_sticky'}
 			,{field: 'proxy_platform', title: 'Source', width:150,align:'center'}
 			,{field: 'state', title: 'Status', width: 100,align:'center', templet: '#state'}
-			,{field: 'last_start', title: 'Last update', minWidth:160,align:'center'}
+			,{field: 'last_start', title: 'Last update', width:160,align:'center'}
 		]],
 		error: function(res){
 			var errorText = 'Data loading failed!';
@@ -351,15 +351,9 @@ layui.use(['table','form','laydate','util','common'], function(){
 				data['area'] =  arrRegion;
 				search_param = data;
 				var serializeData = $.param(data);				
-				var url = server + "sv5-server/get_server_list/" + user.user_id + "?" + serializeData;
-				var settings = {
-					"url": url,
-					"method": "GET",
-					"timeout": 0
-				};
-				table.reload('proxy_ports', {
-					url: url
-				});
+				var url = server + "sv5-server/get_page/" + user.user_id + "?" + serializeData;
+				console.log(url);
+				table.reload('proxy_ports', {url: url});
 				parent.layer.close(index_search);
 			},
 			btn2: function(index, layero, that){

@@ -8,26 +8,49 @@
 	<link href="../layui/css/layui.css" rel="stylesheet">
 	<script src="../layui/layui.js"></script>
 </head>
+<style>
+	#user_id,#device_ip{cursor:pointer;}
+</style>
 <body>
 <div class="layui-fluid" style="margin-top: 50px;">
-	<div class="layui-row layui-col-space15">
+	<div class="layui-row layui-col-space10">
+		<div class="layui-col-xs12">
+		<blockquote class="layui-elem-quote">
+			<p style="font-weight: bold; color:#16baaa;">Your User ID: <font id="user_id" title="Copy"></font></p>
+			<p style="font-weight: bold; color:#16baaa;">ZennoProxy Server: <font id="device_ip" title="Copy"></font></span>
+			<!-- <p style="font-weight: bold;">Please apply to the manager to obtain your user ID.</p> -->
+		</blockquote>
+		</div>
 		<div class="layui-col-xs6">
 			<div class="layui-collapse" lay-accordion style="background-color: #fff;">			  
 				<div class="layui-colla-item">
-					<div class="layui-colla-title" style="background-color: #fff !important;">Refresh Port API &nbsp;&nbsp;<span style="font-weight: bold; color:#16baaa;">( ZennoProxy Server: <font id="device_ip"></font> )</span></div>
+					<div class="layui-colla-title" style="background-color: #fff !important;">Refresh Port API</div>
 					<div class="layui-colla-content  layui-show">
-						<blockquote class="layui-elem-quote">
-							<p style="font-weight: bold; color:#16baaa;">Your User ID: <font id="user_id"></font></p>
-							<p>API: {base_url}/sv5-server/refresh_proxy_chain/{user_id}/{port}</p>
-						</blockquote>
-						<blockquote class="layui-elem-quote">
-							<p>Example:</p>
-							<p>Server address: demo.zennoproxy.net</p>
-							<p>User ID: 1688</p>
-							<p>Port to be refreshed:24000</p>
-							<p>Final API: http://demo.zennoproxy.net:12569/sv5 -Server/refresh_ Proxy_ Chain/1688/24000</p>
-							<p style="font-weight: bold;">Please apply to the manager to obtain your user ID.</p>
-						</blockquote>
+						<p>API: {base_url}/sv5-server/refresh_proxy_chain/{user_id}/{port}</p>
+						<p>Example:</p>
+						<pre class="layui-code code-api" lay-options="{}">
+						Server address: demo.zennoproxy.net
+						User ID: 1688
+						Port to be refreshed:24000
+						Final API: http://demo.zennoproxy.net:12569/sv5-Server/refresh_Proxy_Chain/1688/24000						
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-xs6">
+			<div class="layui-collapse" lay-accordion style="background-color: #fff;">			  
+				<div class="layui-colla-item">
+					<div class="layui-colla-title" style="background-color: #fff !important;">Update port area</div>
+					<div class="layui-colla-content  layui-show">
+						<p>API: {base_url}/sv5-server/update_area/{user_id}/{port}/{area}</p>
+						<p>Example:</p>
+						<pre class="layui-code code-api" lay-options="{}">
+						Server address: demo.zennoproxy.net
+						User ID: 1688
+						Port to be refreshed:24000
+						Final API: http://demo.zennoproxy.net:12569/sv5-Server/update_area/1688/24000/us-mississippi-Philadelphia
+						</pre>
 					</div>
 				</div>
 			</div>
@@ -38,9 +61,10 @@
 layui.extend({
 	common: '/modules/common'
 });
-layui.use(['form','common'],function(){	
+layui.use(['code','common'],function(){	
 	var $ = layui.jquery
 		,layer = parent.layer === undefined ? layui.layer : top.layer
+		,code = layui.code
 		,common = layui.common;
 	
 	var user;
@@ -51,6 +75,32 @@ layui.use(['form','common'],function(){
 	$('#user_id').text(user.user_id);
 	var device_ip = common.get_device_ip();
 	$('#device_ip').text(device_ip);
+	
+	layui.code({
+		elem: '.code-api'
+	});
+	
+	$('#user_id').click(function() {
+		var element = $('#user_id');
+		var text = element.text();
+		doCopy(text);		
+	});
+	
+	$('#device_ip').click(function() {
+		var element = $('#device_ip');
+		var text = element.text();
+		doCopy(text);
+	});
+	
+	window.doCopy = function(text){
+		var input = $('<input>').val(text).appendTo('body').select();
+		document.execCommand('copy');
+		input.remove();
+		parent.layer.msg('Copy success.', {icon: 1}, function(){
+			
+		});
+	}
+	  
 });
 </script>
 </body>

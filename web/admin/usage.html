@@ -11,15 +11,26 @@
 </head>
 <style>
 	 body{padding: 0; margin: 0;}
-	.layui-table-view{border: none;}
+	 .layui-table-view{border: none;}
+	 .layui-fluid{padding-top: 10px;}
+	 .layui-fluid .layui-form{padding-bottom: 10px;}
 </style>
 <body>
+<div class="x-nav">
+	<span class="layui-breadcrumb">
+		<a><cite>Homepage</cite></a> 
+		<a><cite>Standby Manager</cite></a>
+	</span>
+	<a class="layui-btn layui-btn-xs" onclick="location.reload()" title="Refresh">
+		<i class="layui-icon layui-icon-refresh-3"></i>
+	</a>
+</div>
 <div class="layui-fluid">
 	<div class="layui-row">
 		<div class="table">
 			<form class="layui-form" action="">
 				<div class="layui-inline">
-					<button type="button" class="layui-btn layui-btn-sm" onclick="add()"><i class="layui-icon layui-icon-engine"></i>Add</button>
+					<button type="button" class="layui-btn layui-btn-sm" onclick="add()"><i class="layui-icon layui-icon-engine"></i>Allocated Traffic</button>
 					<div class="layui-input-inline">
 						<select>
 							<option value="">All</option>
@@ -81,7 +92,7 @@ layui.use(['table','form','element','common'], function(){
 	var users_url = server + "sv5-flow-standby/get_page/" + user.user_id;
 	var user_manage = table.render({
 		elem: '#users'
-		,height: 'full-80'
+		,height: 'full-140'
 		,url: users_url
 		,page: {
 			layout: ['prev', 'page', 'next', 'skip', 'count','limit'],
@@ -96,9 +107,8 @@ layui.use(['table','form','element','common'], function(){
 		}
 		,cols: [[
 			{field: 'actions', title: 'Actions',width:260,align:'center', toolbar: '#barActions'}
-			,{field: 'id', title: 'ID',align:'center'}
-			,{field: 'user_id', title: 'Customer',align:'center'}
-			,{field: 'total', title: 'Total',align:'center', templet: '#total'}
+			,{field: 'user_name', title: 'User Name',align:'center'}
+			,{field: 'total', title: 'Allocated Traffic',align:'center', templet: '#total'}
 			,{field: 'usage', title: 'Usage',align:'center', templet: '#usage'}
 			,{field: 'state', title: 'State',align:'center', templet: '#state'}
 			,{field: 'active_plan', title: 'Active Plan',align:'center'}
@@ -152,10 +162,10 @@ layui.use(['table','form','element','common'], function(){
 		var post_url = server + "sv5-flow-standby/add";
 		var index_allocate = parent.layer.open({
 			type: 2,
-			title: ["Add Traffic", 'font-size:14px;font-weight:bold'],
+			title: ["Allocated Traffic", 'font-size:14px;font-weight:bold'],
 			area: ["620px","550px"],
 			content: "./allocate_add.html",
-			btn: ['Add','Close'],
+			btn: ['Confirm','Cannel'],
 			btnAlign: 'l',
 			btn1: function (index_layer, layero) {					
 				var formData = parent.layer.getChildFrame('body', index_layer).contents().serializeArray();
@@ -184,10 +194,10 @@ layui.use(['table','form','element','common'], function(){
 			var post_url = server + "sv5-flow-standby/update";
 			var index_allocate = parent.layer.open({
 				type: 2,
-				title: ["Edit Traffic", 'font-size:14px;font-weight:bold'],
+				title: ["Edit Allocated Traffic", 'font-size:14px;font-weight:bold'],
 				area: ["520px","520px"],
 				content: url,
-				btn: ['Update','Close'],
+				btn: ['Confirm','Cannel'],
 				btnAlign: 'l',
 				btn1: function (index_layer, layero) {
 					var formData = parent.layer.getChildFrame('body', index_layer).contents().serializeArray(); 

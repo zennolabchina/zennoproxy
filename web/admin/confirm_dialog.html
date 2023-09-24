@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/xadmin-while.css">
+    <script src="../layui/layui.js"></script>
+	<script src="../modules/xm-select.js"></script>
+</head>
+<style>
+	.dialog{margin-top: 15px;}
+	.dialog .layui-row{border-top: 1px solid #e2e2e2;}
+	.dialog .title,.dialog .value{width:100%; height: 45px; line-height: 45px;}
+	.dialog .title{color:#aaa;}
+	.dialog .value{padding-left: 20px;}
+	.tishi{width: calc(100% - 10px); padding: 0 5px; font-size: 16px; font-weight: bold; color: #ff5722; margin-top: 15px;}
+</style>
+<body>
+<div class="layui-fluid dialog">
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Agent Type</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="agent_type"></span>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Country/Region</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="country"></span>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Agency Agreement</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="agency_agreement"></span>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Authorization Type</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="type"></span>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Purchase quantity</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="num"></span>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Specifications</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="duration"></span>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-xs6">
+			<span class="title">Unit price</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="unit_price"></span>
+		</div>
+	</div>
+	<div class="layui-row" style="border-bottom: 1px solid #e2e2e2;">
+		<div class="layui-col-xs6">
+			<span class="title">Total Price</span>
+		</div>
+		<div class="layui-col-xs6">
+			<span class="value" id="total_price"></span>
+		</div>		
+	</div>
+	<p class="tishi">Attention: Domestic networks cannot directly use proxies. Before using the route, you need to prepare your own overseas network.</p>
+</div>
+<script>
+layui.extend({
+	common: '../modules/common'
+});
+layui.use(['common'], function(){
+	var $ = layui.jquery
+		,common = layui.common;
+	
+	var urlParams = new URLSearchParams(window.location.search);
+	var jsonDataString = urlParams.get('data');	
+	var jsonData = JSON.parse(decodeURIComponent(jsonDataString));	
+	for (var key in jsonData) {
+		if (jsonData.hasOwnProperty(key)) {
+			$("#" + key).text(jsonData[key]);
+		}
+	}
+});
+</script>
+</body>
+</html>

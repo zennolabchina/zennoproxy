@@ -1,0 +1,598 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+
+<link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table th:first-child,
+table td:first-child {
+    margin-top: 0;
+}
+table th:last-child,
+table td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+/*.html-for-mac {
+    --item-hover-bg-color: #E6F0FE;
+}*/
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+    opacity: 0.4;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+.menu-item-container a.menu-style-btn {
+    background-color: #f5f8fa;
+    background-image: linear-gradient( 180deg , hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0)); 
+}
+
+
+
+</style><title>zennoproxy使用文档_EN</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><h1 id='no1-scenario-application-examples'><span>No.1 Scenario application examples</span></h1><h2 id='fingerprint-browser'><span>Fingerprint browser</span></h2><h3 id='1bitbrowser'><span>1.BitBrowser</span></h3><h6 id='11-create-window'><span>1.1 Create window</span></h6><p><span>	</span><span>Click on &quot;Browser Window&quot; and select &quot;Create Window&quot;</span></p><p><img src="./images/BitBrowser_en_1.png" referrerpolicy="no-referrer"></p><h6 id='12-proxy-type'><span>1.2 Proxy type</span></h6><p><span>	</span><span>Set Proxy type to Socks5</span></p><p><img src="./images/BitBrowser_en_2.png" referrerpolicy="no-referrer"></p><h6 id='13-proxy-configuration'><span>1.3 Proxy configuration</span></h6><p><img src="./images/BitBrowser_en_3.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Public IP address of the server</span></p><p><span>	</span><span>②Zennoproxy Proxy port</span></p><p><span>	</span><span>③Zennoproxy Proxy account</span></p><p><span>	</span><span>④Zennoproxy Proxy password</span></p><p><span>	</span><span>⑤ Check whether the agent is successful</span></p><h3 id='2adspower'><span>2.AdsPower</span></h3><h6 id='21-create-window'><span>2.1 Create window</span></h6><p><span>	</span><span>Click &quot;New Browser&quot;</span></p><p><img src="./images/AdsPower_en_1.png" referrerpolicy="no-referrer"></p><h6 id='22-proxy-type'><span>2.2 Proxy type</span></h6><p><span>	</span><span>Set Proxy type to Socks5</span></p><p><img src="./images/AdsPower_en_2.png" referrerpolicy="no-referrer"></p><h6 id='23-proxy-configuration'><span>2.3 Proxy configuration</span></h6><p><img src="./images/AdsPower_en_3.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Public IP address of the server</span></p><p><span>	</span><span>②Zennoproxy Proxy port</span></p><p><span>	</span><span>③Zennoproxy Proxy account</span></p><p><span>	</span><span>④Zennoproxy Proxy password</span></p><p><span>	</span><span>⑤ Check whether the agent is successful</span></p><h3 id='3hubstudio'><span>3.Hubstudio</span></h3><h6 id='31-create-window'><span>3.1 Create window</span></h6><p><span>	</span><span>在【我的环境】选择【新建环境】</span></p><p><img src="./images/Hunstudio_1.png" referrerpolicy="no-referrer" alt="image-20230912203055484"></p><h6 id='32-proxy-type'><span>3.2 Proxy type</span></h6><p><span>	</span><span>Set Proxy type to Socks5</span></p><p><img src="./images/Hunstudio_2.png" referrerpolicy="no-referrer" alt="image-20230912203253956"></p><h6 id='33-proxy-configuration'><span>3.3 Proxy configuration</span></h6><p><img src="./images/Husbtudio_3.png" referrerpolicy="no-referrer" alt="image-20230912203400677"></p><p><span>	</span><span>① Public IP address of the server</span></p><p><span>	</span><span>②Zennoproxy Proxy port</span></p><p><span>	</span><span>③Zennoproxy Proxy account</span></p><p><span>	</span><span>④Zennoproxy Proxy password</span></p><p><span>	</span><span>⑤ Check whether the agent is successful</span></p><h3 id='4proxy-switchyomega'><span>4.Proxy SwitchyOmega</span></h3><h6 id='41-download-link'><span>4.1 Download link</span></h6><p><span>			</span><a href='https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif' target='_blank' class='url'>https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif</a></p><h6 id='42-make-sure-you-have-the-proxy-switchyomega-plug-in-on-your-browser-and-display-it-in-your-browser-window'><span>4.2 Make sure you have the proxy SwitchyOmega plug-in on your browser and display it in your browser window</span></h6><p><img src="./images/proxyswitchyOmega_en_1.png" referrerpolicy="no-referrer"></p><h6 id='43-select-options-to-enter-the-configuration'><span>4.3 Select options to enter the configuration</span></h6><p><img src="./images/proxyswitchyOmega_en_2.png" referrerpolicy="no-referrer"></p><h6 id='44-create-a-new-proxy'><span>4.4 Create a new proxy</span></h6><p><img src="./images/proxyswitchyOmega_en_3.png" referrerpolicy="no-referrer"></p><h6 id='45-give-the-agent-a-name'><span>4.5 Give the agent a name</span></h6><p><img src="./images/proxyswitchyOmega_en_4.png" referrerpolicy="no-referrer"></p><h6 id='46-configuration-proxy'><span>4.6 Configuration proxy</span></h6><p><img src="./images/proxyswitchyOmega_en_5.png" referrerpolicy="no-referrer" alt="19"></p><p><span>	</span><span>① Set the proxy type to SOCKS5</span></p><p><span>	</span><span>② Public IP address of the server</span></p><p><span>	</span><span>③Zennoproxy Proxy port</span></p><p><span>	</span><span>④ Click the icon to enter the account passw</span></p><p><span>	</span><span>⑤ Application options (confirm)</span></p><h6 id='47-select-the-node-rule-to-be-created'><span>4.7 Select the node rule to be created</span></h6><p><img src="./images/proxyswitchyOmega_en_6.png" referrerpolicy="no-referrer" alt="/"></p><h2 id='windows'><span>Windows</span></h2><h3 id='1proxifier'><span>1.Proxifier</span></h3><h6 id='1proxy-configuration'><span>1.Proxy configuration</span></h6><p><span>		</span><span>1.1 Select Proxy Servers in Profile</span></p><p><img src="./images/proxifier_win_1.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.2 Fill in the proxy configuration</span></p><p><img src="./images/proxifier_win_2.png" referrerpolicy="no-referrer" alt="proxifier_2"></p><p><span>			</span><span>① Add Configuration</span></p><p><span>			</span><span>② Enter the public IP address of the server</span></p><p><span>			</span><span>③ Port</span></p><p><span>			</span><span>④ Select SOCKS Version 5 for the proxy protocol</span></p><p><span>			</span><span>⑤ Fill in the background account password (check Enble when filling in the account password)</span></p><p><span>			</span><span>⑥ Check whether the configuration is successful</span></p><p><span>						</span><span>Successful examples:</span></p><p><img src="./images/proxifier_win_3.png" referrerpolicy="no-referrer" alt="proxifier_3"></p><p><span>			</span><span>⑦ Save configuration</span></p><h6 id='2rule-proxy-configuration'><span>2.Rule proxy configuration</span></h6><p><span>	</span><span>2.1 Select Proxification Rules in the Profile</span></p><p><img src="./images/proxifier_win_4.png" referrerpolicy="no-referrer" alt="proxifier_4"></p><p><span>		</span><span>2.2 Fill in the proxy configuration</span></p><p><img src="./images/proxifier_win_5.png" referrerpolicy="no-referrer" alt="proxifier_5"></p><p><span>	</span><span>① Add proxy configuration</span></p><p><span>	</span><span>② Configuration Naming</span></p><p><span>	</span><span>③ Programs that need to use agents</span></p><p><span>	</span><span>④ Use the proxy&#39;s host IP address</span></p><p><span>	</span><span>⑤ Use the agent&#39;s port</span></p><p><span>	</span><span>⑥ Save proxy configuration information</span></p><p><span>	</span><span>⑦ Save</span></p><h2 id='android'><span>Android</span></h2><h3 id='1v2ray'><span>1.v2ray</span></h3><h6 id='11-click-add-configuration'><span>1.1 Click Add Configuration</span></h6><p><img src="./images/v2ray_en_1.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><h6 id='12-select-socks'><span>1.2 Select socks</span></h6><p><img src="./images/v2ray_en_2.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><h6 id='13-configuration-information'><span>1.3 Configuration information</span></h6><p><img src="./images/v2ray_en_3.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><p><span>	</span><span>① proxy naming</span></p><p><span>	</span><span>② Public IP address of the server</span></p><p><span>	</span><span>③Zennoproxy Proxy port</span></p><p><span>	</span><span>④Zennoproxy proxy account</span></p><p><span>	</span><span>⑤Zennoproxy Proxy password</span></p><h6 id='14-check-whether-the-addition-succeeds'><span>1.4 Check whether the addition succeeds</span></h6><p><img src="./images/v2ray_en_4.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><h6 id='15-proxy-settings'><span>1.5 Proxy settings</span></h6><p><span>	</span><span>Check the picture box selection area</span></p><p><img src="./images/v2ray_en_5.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><p><img src="./images/v2ray_en_6.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><h6 id='16-open-proxy'><span>1.6 Open proxy</span></h6><p><img src="./images/v2ray_en_7.png" referrerpolicy="no-referrer" alt="v2ray_1"></p><h3 id='2postern'><span>2.Postern</span></h3><h6 id='21-delete-the-default-proxy-server'><span>2.1 Delete the default proxy server</span></h6><p><img src="./images/Postern_EN_1.png" referrerpolicy="no-referrer"></p><p><img src="./images/Postern_EN_2.png" referrerpolicy="no-referrer"></p><p><img src="./images/Postern_EN_3.png" referrerpolicy="no-referrer"></p><h6 id='22-adding-a-proxy-server'><span>2.2 Adding a Proxy Server</span></h6><p><img src="./images/Postern_EN_4.png" referrerpolicy="no-referrer"></p><h6 id='23-proxy-server-configuration'><span>2.3 Proxy server configuration</span></h6><p><img src="./images/Postern_EN_5.png" referrerpolicy="no-referrer"></p><p><img src="./images/Postern_EN_6.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Set the proxy server name</span></p><p><span>	</span><span>② Public IP address of the server</span></p><p><span>	</span><span>③Zennoproxy Proxy port</span></p><p><span>	</span><span>④ Set the proxy type to SOCKS5</span></p><p><span>	</span><span>⑤Zennoproxy Proxy account</span></p><p><span>	</span><span>⑥Zennoproxy Proxy password</span></p><p><span>	</span><span>⑦ Click Save after the configuration is complete</span></p><h6 id='24-example-delete-the-default-configuration-rule'><span>2.4 Example Delete the default configuration rule</span></h6><p><img src="./images/Postern_EN_7.png" referrerpolicy="no-referrer"></p><p><img src="./images/Postern_EN_8.png" referrerpolicy="no-referrer"></p><p><img src="./images/Postern_EN_9.png" referrerpolicy="no-referrer"></p><h6 id='25-add-configuration-rule'><span>2.5 Add configuration rule</span></h6><p><img src="./images/Postern_EN_10.png" referrerpolicy="no-referrer"></p><p><img src="./images/Postern_EN_11.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Match type: Match all addresses</span></p><p><span>	</span><span>②Action: Connect through a proxy</span></p><p><span>	</span><span>③ Proxy: Select the added proxy server</span></p><p><span>	</span><span>④ Click Save after the configuration is complete</span></p><h6 id='26-open-vpn'><span>2.6 Open VPN</span></h6><p><img src="./images/Postern_EN_12.png" referrerpolicy="no-referrer" alt="''"></p><h3 id='3proxifier'><span>3.Proxifier</span></h3><h6 id='31-configuring-a-proxy-server'><span>3.1 Configuring a proxy Server</span></h6><p><img src="./images/Proxifier_1.png" referrerpolicy="no-referrer"></p><p><img src="./images/Proxifier_2.png" referrerpolicy="no-referrer"></p><p><img src="./images/Proxifier_3.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Set the proxy type to SOCKS5</span></p><p><span>	</span><span>② Public IP address of the server</span></p><p><span>	</span><span>③Zennoproxy Proxy port</span></p><p><span>	</span><span>④Zennoproxy proxy account</span></p><p><span>	</span><span>⑤Zennoproxy Proxy password</span></p><p><span>	</span><span>⑥ After the configuration is complete, click Save</span></p><h6 id='32-configuring-proxy-rules'><span>3.2 Configuring proxy rules</span></h6><p><img src="./images/Proxifier_4.png" referrerpolicy="no-referrer"></p><h6 id='33-configuration-mode'><span>3.3 Configuration mode</span></h6><p><img src="./images/Proxifier_5.png" referrerpolicy="no-referrer"></p><p><img src="./images/Proxifier_6.png" referrerpolicy="no-referrer"></p><h6 id='34-configuration-application'><span>3.4 Configuration application</span></h6><p><img src="./images/Proxifier_7.png" referrerpolicy="no-referrer"></p><p><img src="./images/Proxifier_8.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Configure the App that uses the agent</span></p><p><span>	</span><span>② Click Save after the configuration is complete</span></p><h6 id='35-configuration-settings'><span>3.5 Configuration Settings</span></h6><p><img src="./images/Proxifier_9.png" referrerpolicy="no-referrer"></p><p><img src="./images/Proxifier_10.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Enables blocking of UDP traffic</span></p><p><span>	</span><span>② The screen log configuration displays only errors</span></p><p><span>	</span><span>③ The file log configuration displays only errors</span></p><p><span>	</span><span>④ Click Save after the configuration is complete</span></p><h6 id='36-open-vpn'><span>3.6 Open VPN</span></h6><p><img src="./images/Proxifier_11.png" referrerpolicy="no-referrer"></p><h6 id='37-check-whether-the-proxy-is-configured-successfully'><span>3.7 Check whether the proxy is configured successfully</span></h6><p><img src="./images/Proxifier_12.png" referrerpolicy="no-referrer"></p><p><img src="./images/Proxifier_13.png" referrerpolicy="no-referrer"></p><h2 id='ios'><span>IOS</span></h2><h3 id='1shadowrocket'><span>1.Shadowrocket</span></h3><h6 id='11-click-the-plus-icon'><span>1.1 Click the plus icon</span></h6><p><img src="./images/shadowrocket_en_1.png" referrerpolicy="no-referrer"></p><h6 id='12-change-the-type-to-socks5'><span>1.2 Change the type to socks5</span></h6><p><img src="./images/shadowrocket_en_2.png" referrerpolicy="no-referrer"></p><p><img src="./images/shadowrocket_en_3.png" referrerpolicy="no-referrer"></p><h6 id='13-fill-in-the-configuration-information'><span>1.3 Fill in the configuration information</span></h6><p><img src="./images/shadowrocket_en_4.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Enter the public IP address of the server</span></p><p><span>	</span><span>② Fill in the port</span></p><p><span>	</span><span>③ Fill in the account number</span></p><p><span>	</span><span>④ Fill in the password</span></p><p><span>	</span><span>⑤ Click Finish to complete the matching</span></p><h6 id='14-refresh-configuration'><span>1.4 Refresh configuration</span></h6><p><img src="./images/shadowrocket_en_5.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Change the global route to a proxy</span></p><p><span>	</span><span>② Refreshing a node</span></p><p><span>	</span><span>③ Test connectivity</span></p><h6 id='15-open-proxy'><span>1.5 Open proxy</span></h6><p><img src="./images/shadowrocket_en_6.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Select well-configured nodes</span></p><p><span>	</span><span>② Open proxy</span></p><p>&nbsp;</p><h1 id='no2-zennoproxy-background-configuration'><span>No.2 ZennoProxy Background configuration</span></h1><h3 id='1-account-registration'><span>1. Account registration</span></h3><p><span>		</span><span>Registered address：</span><a href='http://zennoproxy.net/register.html' target='_blank' class='url'>http://zennoproxy.net/register.html</a></p><p><img src=".\images\Zennoproxy_1.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① User name: You can only use gmail to register, for example, </span><a href='mailto:xiaoming@gmail.com' target='_blank' class='url'>xiaoming@gmail.com</a></p><p><span>	</span><span>② Password: consists of letters and numbers, and cannot use special symbols</span></p><p><span>	</span><span>③ Confirm password: Enter a password consistent with the password</span></p><p><span>	</span><span>④ Invitation code: Please contact ZennoProxy service manager to apply for registration invitation code; Example: Zennoproxy-Get-Your-Code</span></p><p><span>	</span><span>⑤ After filling in, click Register</span></p><h3 id='2use-zennoproxy'><span>2.Use ZennoProxy</span></h3><h6 id='21-basic-functions'><span>2.1 Basic functions</span></h6><p><img src=".\images\zennoproxy_11.png" referrerpolicy="no-referrer"></p><p><img src=".\images\zennoproxy_12.png" referrerpolicy="no-referrer" alt="image-20230908215609216"></p><p><img src=".\images\zennoproxy_13.png" referrerpolicy="no-referrer" alt="image-20230908215758390"></p><p><span>	</span><span>① Adding a Port</span></p><p><span>	</span><span>② Port List</span></p><p><span>	</span><span>③ Select the refreshed port</span></p><p><span>	</span><span>④ Delete the selected port</span></p><p><span>	</span><span>⑤ Search port</span></p><p><span>	</span><span>⑥ View the attributes of the port</span></p><p><span>	</span><span>⑦ Export port data</span></p><p><span>	</span><span>⑧ View the traffic on each port</span></p><p><span>	</span><span>⑨ Export port data</span></p><p><span>	</span><span>⑩ View total traffic data</span></p><p><span>	</span><span>⑪ Viewing traffic packets</span></p><p><span>	</span><span>⑫ Grouping (categorizing ports)</span></p><p><span>	</span><span>⑬ Set whitelist (add host ip, add whitelist port can only use whitelist ip)</span></p><p><span>	</span><span>⑭ Set detour data</span></p><h6 id='3-add-a-port'><span>3. Add a port</span></h6><p><span>	</span><span>3.1 Click the Add Port button</span></p><p><img src=".\images\zennoproxy_10.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>3.2 Fill in the picture as required</span></p><p><img src=".\images\zennoproxy_14.png" referrerpolicy="no-referrer" alt="image-20230909003728392"></p><p><span>	</span><span>① Select the port (multiple options).</span></p><p><span>	</span><span>② Enter the account password (format: user:password),</span></p><p><span>	</span><span>③ Select the traffic package,</span></p><p><span>	</span><span>④ Select the country,</span></p><p><span>	</span><span>⑤ Select groups,</span></p><p><span>	</span><span>⑥ Select the whitelist.</span></p><p><span>	</span><span>⑦ Choose a detour,</span></p><p><span>	</span><span>⑧ Select sticky time</span></p><p><span>	</span><span>⑨ Save Settings</span></p><p><span>	</span><span>⑩ cancel</span></p><h6 id='4-export-ports-and-their-configurations'><span>4. Export ports and their configurations</span></h6><p><img src=".\images\zennoproxy_15.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>The export port will download an Excel file containing various configuration instructions</span></p><p><span>	</span><span>As shown below:</span></p><p><img src=".\images\zennoproxy_16.png" referrerpolicy="no-referrer"></p><p><img src=".\images\zennoproxy_17.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Port added in the background</span></p><p><span>	</span><span>② Set the account password</span></p><p><span>	</span><span>③ Grouping of ports</span></p><p><span>	</span><span>④ Port assignment country</span></p><p><span>	</span><span>⑤ Whitelist of a port</span></p><p><span>	</span><span>⑥ Port detour rules</span></p><p><span>	</span><span>⑦ Port stickiness time</span></p><p><span>	</span><span>⑧ Traffic packets used by a port</span></p><p><span>	</span><span>⑨ Port status: 1 is started, 0 is not started</span></p><p><span>	</span><span>⑩ Port last update time</span></p><p><span>	</span><span>⑪ Standard socks5 Agency Agreement</span></p><p><span>	</span><span>⑫ A common fingerprint browser proxy configuration on the market</span></p><h6 id='5-deleting-a-port'><span>5. Deleting a port</span></h6><p><img src=".\images\zennoproxy_18.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Select the port to be deleted</span></p><p><span>	</span><span>② Click Delete</span></p><h6 id='6-search-port'><span>6. Search port</span></h6><p><span>	</span><span>6.1 Click Search button</span></p><p><img src=".\images\zennoproxy_19.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>6.2</span></p><p><img src=".\images\zennoproxy_20.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① Search by account password</span></p><p><span>	</span><span>② Search for traffic packets</span></p><p><span>	</span><span>③ Search by country</span></p><p><span>	</span><span>④ Search by grouping</span></p><p><span>	</span><span>⑤ Search by whitelist</span></p><p><span>	</span><span>⑥ Search by bypass rules</span></p><p><span>	</span><span>⑦ Search by viscosity time</span></p><p><span>	</span><span>⑧ Search</span></p><p><span>	</span><span>⑨ Reset</span></p><p><span>	</span><span>⑩ cancel</span></p><h6 id='7-show-and-hide'><span>7. Show and hide</span></h6><p><span>	</span><span>You can display or hide part of the port information on the page</span></p><p><img src=".\images\zennoproxy_21.png" referrerpolicy="no-referrer"></p><h6 id='8api-use'><span>8.API use</span></h6><p><span>	</span><span>8.1 Information introduction</span></p><p><img src=".\images\zennoproxy_21.png" referrerpolicy="no-referrer"></p><p><span>	</span><span>① User ID (Each user ID is independent)</span></p><p><span>	</span><span>② Public IP address of the server bound to the account</span></p><p><span>	</span><span>③ Change the API configuration link of the port IP, {} represents the content to be filled</span></p><p><span>	</span><span>④ Change the API configuration link of the port country, {} represents the content to be filled</span></p><p><span>	</span><span>8.2  Tutorial</span></p><p><span>		</span><strong><span>Change the API configuration format of the IP address：</span></strong><span>{base_url}/sv5-server/refresh_proxy_chain/{user_id}/{port}</span></p><p><span>			</span><span>For example, the public IP address of the server is 123.45.67.89, and the account ID is 26</span></p><p><span>			</span><span>Then {base_url} is 123.45.67.89:12569</span></p><p><span>				</span><span>{user_id} is 26</span></p><p><span>				</span><span>{port} is the port created in the background</span></p><p><span>			</span><span>If I want to refresh the IP of port 24000 via the API, configure it as:</span></p><p><span>			</span><a href='http://123.45.67.89:12569/sv5-server/refresh_proxy_chain/26/24000' target='_blank' class='url'>http://123.45.67.89:12569/sv5-server/refresh_proxy_chain/26/24000</a></p><p><span>			</span><span>Open the above link in your browser to complete the IP switch</span></p><p><span>		</span><strong><span>Change the country API configuration format：</span></strong><span>{base_url}/sv5-server/update_area/{user_id}/{port}/{area}</span></p><p><span>			</span><span>For example, the public IP address of the server is 123.45.67.89, and the account ID is 26</span></p><p><span>			</span><span>Then {base_url} is 123.45.67.89:12569</span></p><p><span>				</span><span>{user_id} is 26</span></p><p><span>				</span><span>{port} is the port created in the background</span></p><p><span>				</span><span>{area} is the country you want to change. For example, the United States is us</span></p><p><span>			</span><span>If I want to change the country of 24000 port to us via API, the configuration is:</span></p><p><span>			</span><a href='http://123.45.67.89:12569/sv5-server/update_area/26/24000/us' target='_blank' class='url'>http://123.45.67.89:12569/sv5-server/update_area/26/24000/us</a></p><p><span>			</span><span>To complete the country switch, open the above link in your browser</span></p><p><span>			</span><span>To locate a continent or city, add the name of the continent and city after the country, separated by a -</span></p><p><span>			</span><span>For example:</span></p><p><span>				</span><span>Locate to the continent: us-mississippi</span></p><p><span>				</span><span>Locate to the city: us-mississippi-Philadelphia</span></p><h1 id='no3-dns-optimize'><span>No.3 DNS Optimize</span></h1><h6 id='1-change-dns'><span>1. Change DNS</span></h6><p><span>		</span><span>1.1 Enable DNS preference and ask the salesman to obtain it</span></p><p><img src="./images/DNS_1.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.2 DNS test, Obtain the two DNS addresses with the lowest latency</span></p><p><img src="./images/DNS_2.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.3 Click Change Adapter option in Settings</span></p><p><img src="./images/DNS_en_3.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.4 Broadband right-click properties</span></p><p><img src="./images/DNS_en_4.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.5 Double-click the box to select the area</span></p><p><img src="./images/DNS_en_5.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.6 Enter the two IP addresses with the lowest delay</span></p><p><img src="./images/DNS_en_6.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.7 WIN+R opens cmd</span></p><p><img src="./images/DNS_en_7.png" referrerpolicy="no-referrer"></p><p><span>		</span><span>1.8 Enter the ipconfig/flushdns command and press enter to update the DNS configuration</span></p><p><img src="./images/DNS_en_8.png" referrerpolicy="no-referrer"></p><h1 id='no4-purchase-server'><span>No.4 Purchase server</span></h1><h3 id='1alibaba-cloud-server'><span>1.Alibaba Cloud server</span></h3><h6 id='1buy-the-link'><span>1.Buy the link:</span></h6><p><span>		</span><a href='https://www.alibabacloud.com/?spm=a2798.12277262.6791778070.16.33b05599wTR96Y' target='_blank' class='url'>https://www.alibabacloud.com/?spm=a2798.12277262.6791778070.16.33b05599wTR96Y</a></p><h6 id='2purchase-according-to-picture-request'><span>2.Purchase according to picture request</span></h6><p><img src="./images/aly_en_1.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_2.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_3.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_4.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_5.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_6.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_7.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_8.png" referrerpolicy="no-referrer"></p><h6 id='3-remote-connection-server'><span>3. Remote connection server</span></h6><p><span>			</span><span>3.1 Search box Searches for remote desktop connections</span></p><p><span>			</span><img src="./images/mstsc_en_1.jpg" referrerpolicy="no-referrer"></p><p><span>		</span><span>3.2 Enter a public IP address</span></p><p><img src="./images/mstsc_en_2.jpg" referrerpolicy="no-referrer"></p><p><span>			</span><span>①Enter the public IP address of the server</span></p><p><span>			</span><span>②Click to connect</span></p><p><span>		</span><span>3.3 Enter account password</span></p><p><img src="./images/mstsc_en_3.jpg" referrerpolicy="no-referrer"></p><p><span>			</span><span>③ Fill in the account (the default account is Administrator)</span></p><p><span>			</span><span>④ Fill in the password</span></p><p><img src="./images/aly_en_9.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_10.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_11.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_12.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_13.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_14.png" referrerpolicy="no-referrer"></p><p><img src="./images/aly_en_15.png" referrerpolicy="no-referrer"></p><h6 id='4-run-program'><span>4. Run program</span></h6><p><span>		</span><span>Download link: </span><a href='https://github.com/eathonq/brief-socksv5-html-version/' target='_blank' class='url'>https://github.com/eathonq/brief-socksv5-html-version/</a></p><p><span>		</span><span>Download the software of the corresponding version to the server desktop and run it on the server</span></p><h3 id='3ishosting-server'><span>3.ishosting server</span></h3><h6 id='31-register'><span>3.1 Register：</span></h6><p><span>			</span><a href='https://my.ishosting.com/en' target='_blank' class='url'>https://my.ishosting.com/en</a></p><h6 id='32-purchase'><span>3.2 Purchase</span></h6><p><span>			</span><span>Select Add new</span></p><p><img src="./images/ishosting_1.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_2.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_3.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_4.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_5.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_6.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_7.png" referrerpolicy="no-referrer"></p><h6 id='33-upgrade-system'><span>3.3 Upgrade system</span></h6><p><span>			</span><span>After the purchase is complete, the user sends a ticket to the customer service and asks the customer service to upgrade the operating system version. (The default operating system is windows 2012. The user needs to upgrade to Windows 2016 or later.)</span></p><p><span>			</span><span>Content title: Upgrade the the OS to windows server 2016 or higher</span></p><p><span>			</span><span>content: Due to the latest Node.js and Curl environment necessary ,please upgrade or re-install this server‘s OS version to Windows Server 2016 or higher</span></p><p><img src="./images/ishosting_8.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_9.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_10.png" referrerpolicy="no-referrer"></p><p><span>			</span><span>Send ID and IP to customer service after receiving the reply</span></p><p><img src="./images/ishosting_11.png" referrerpolicy="no-referrer"></p><h6 id='34-configure-server-port-rules'><span>3.4 Configure server port rules</span></h6><p><span>			</span><span>Configure the inbound rule: Allow ports 12569,24000-25000</span></p><p><img src="./images/ishosting_12.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_13.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_14.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_15.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_16.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_17.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_18.png" referrerpolicy="no-referrer"></p><h6 id='35-environment-variable-configuration'><span>3.5 Environment variable configuration</span></h6><p><span>			</span><span>Download the file: </span><a href='https://curl.se/windows/dl-8.2.1_7/curl-8.2.1_7-win64-mingw.zip' target='_blank' class='url'>https://curl.se/windows/dl-8.2.1_7/curl-8.2.1_7-win64-mingw.zip</a></p><p><span>			</span><span> Extract to: C:\Program Files (x86)</span></p><p><img src="./images/ishosting_19.png" referrerpolicy="no-referrer"></p><p><span>			</span><span>Find curl&#39;s bin directory</span></p><p><img src="./images/ishosting_20.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_21.png" referrerpolicy="no-referrer"></p><p><span>			</span><span>Copy path: C:\Program Files (x86)\curl-8.2.1_7-win64-mingw\bin</span></p><p><img src="./images/ishosting_22.png" referrerpolicy="no-referrer"></p><p><span>			</span><span>My computer properties Settings</span></p><p><img src="./images/ishosting_23.png" referrerpolicy="no-referrer"></p><p><img src="./images/ishosting_24.png" referrerpolicy="no-referrer"></p><h6 id='36-download-zennoproxy'><span>3.6 Download zennoproxy</span></h6><p><span>			</span><span>Download link: </span><a href='https://github.com/zennolabchina/zennoproxy' target='_blank' class='url'>https://github.com/zennolabchina/zennoproxy</a></p><p><span>			</span><span>Run the exe program</span></p><p><img src=".\images\ishosting_25.png" referrerpolicy="no-referrer"></p><h1 id='no5-frequently-asked-questions'><span>No.5 Frequently Asked Questions</span></h1><h6 id='1-after-the-port-is-configured-the-port-is-unavailable-and-the-ip-address-cannot-be-obtained'><span>1. After the port is configured, the port is unavailable and the IP address cannot be obtained</span></h6><p><span>		</span><span>1.1: Check whether the account and password are incorrectly configured. The format of the account and password is user:password, separated by semicolons</span></p><p><span>		</span><span>1.2: After the port configuration is complete, the connection time takes 3s-10s. After refreshing the port, wait a few seconds before using the port configuration</span></p><p><span>		</span><span>1.3: You can refresh the port to obtain the ip address again</span></p><p><span>		</span><span>1.4: You can try to delete this port and rebuild it</span></p><h6 id='2-the-port-will-be-open-the-target-page-cannot-be-opened-add-prohibited-domain-name-list'><span>2. The port will be open, the target page cannot be opened (add prohibited domain name list)</span></h6><p><span>		</span><span>2.1: The port is occupied by the system or another application</span></p><p><span>		</span><span>2.2: Some domain names and addresses have been blacklisted, please consult the business manager for details</span></p><h6 id='3-reasons-for-inaccurate-traffic-statistics-whitelisting-and-password-necessity'><span>3. Reasons for inaccurate traffic statistics (whitelisting and password necessity)</span></h6><p><span>		</span><span>Configure account passwords for all ports and update them periodically to prevent traffic quota loss caused by account configuration leakage. You can also configure a whitelist to ensure traffic security on the current device</span></p><h6 id='4-the-country-and-region-configured-for-the-port-do-not-match-the-example'><span>4. The country and region configured for the port do not match the example</span></h6><p><span>		</span><span>Refresh the port on ZennoProxy to obtain the IP address again</span></p><h6 id='5-the-dynamic-proxy-ip-duration-is-too-short'><span>5. The dynamic proxy IP duration is too short</span></h6><p><span>		</span><span>Check whether the background configuration option StickyTime is set to 15 minutes or 30 minutes. If not, the sticktime is set to 5 minutes by default</span></p><p><span>		</span><img src=".\images\faq_1.png" referrerpolicy="no-referrer"></p><h6 id='6-how-to-use-zone-and-bypasslist-what-does-it-do'><span>6. How to use Zone and Bypasslist? What does it do?</span></h6><p><span>		</span><span>Add the Zone and Bypasslist in the ZennoProxy background Settings. Select the Zone and Bypasslist when adding ports.</span></p><p><span>		</span><span>Zone: Set a group for multiple users or multiple ports</span></p><p><span>		</span><span>Bypasslist: Add a URL by bypasslist port. The URL bypasses the proxy connection, that is, the local connection is directly used.</span><span>		</span><img src=".\images\faq_2.png" referrerpolicy="no-referrer"></p></div></div>
+</body>
+</html>

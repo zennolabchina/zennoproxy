@@ -27,7 +27,7 @@ body{height: 100%;overflow: hidden;}
 
 .layui-nav.layui-bg-gray .layui-nav-item a{color:#1e9fff;}
 
-/*框架页面样式*/
+
 .row-title{height: 60px; line-height: 60px; font-size: 24px; font-weight: bold; color: #54688E;}
 .layui-right{text-align: right;}
 .layui-btn-zdy,.layui-btn-zdy img{width:40px; height: 40px; line-height: 40px;}
@@ -42,3 +42,6 @@ body{height: 100%;overflow: hidden;}
 
 .port_dialog .layui-form-item{ position:relative;}
 .port_dialog .layui-form-item label{ position:absolute; color:#2f363c; left:10px; z-index: 3; top:-13px; line-height:20px; background:#fff; padding:0 5px; font-size:14px; cursor:text;}
+
+.x-nav{width:calc(100% - 20px); height: 40px; line-height: 40px; background-color: #fff; padding: 0 10px; border-top: 1px solid #EFEEF0;}
+.x-nav .layui-btn{float: right; margin-top: 10px;}
