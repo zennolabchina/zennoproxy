@@ -9,6 +9,11 @@
 - s5 standby traffic package management API pagination query information modification (multi-table information).
 - User management API pagination query information modification (multi-table information).
 
+## [1.0.23] - 2023-09-13
+- Added port-IP query interface to s5 service API.
+- Adjusted web directory structure.
+- Modified some Chinese translations.
+
 ## [1.0.22] -2023-09-07
 - Local configuration of the server and modification of the web client version;
 - User API creation invitation code parameter format adjustment, removing device_ IP;
