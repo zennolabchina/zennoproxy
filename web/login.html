@@ -106,9 +106,9 @@ layui.use(['form','layer','common'],function(){
 						"device_id": res.data.device_id,
 						"device_ip": res.data.device_ip,
 						"role": res.data.role
-					}	
+					}
 					layer.msg(res.message,{time: 1000}, function(){
-						if(res.data.role == 1){
+						if(res.data.role == 1||res.data.role == 10){
 							localStorage.setItem('admin', JSON.stringify(user));
 							window.location.href='./admin/user_manage.html';  
 						}else{
