@@ -1,4 +1,18 @@
 #Changelog
+## [1.0.25] - 2023-10-05
+- API optimization:
+   - s5 traffic package: add, update, delete, deactivate
+   - s5 backup traffic package (function merged into s5 traffic package)
+   - Device: add, delete, get pagination data
+   - User: Modify status (Administrator)
+
+- Statistics API
+   - Added s5 statistics to all user traffic usage statistics;
+   - Added s5 statistics for all user traffic usage statistics (grouped by country);
+   - Added s5 statistics, traffic statistics of the most used users;
+   - Added s5 traffic package recent traffic allocation statistics;
+
+- Version optimization
 
 ## [1.0.24] - 2023-09-24
 - s5 traffic package management API modification: Pagination traffic package administrators can obtain all traffic packages of the current platform, and super administrators can obtain all traffic packages of all platforms.
