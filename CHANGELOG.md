@@ -1,4 +1,8 @@
 #Changelog
+
+## [1.0.25.3] - 2023-10-11
+- Device management related API added
+
 ## [1.0.25] - 2023-10-05
 - API optimization:
    - s5 traffic package: add, update, delete, deactivate
