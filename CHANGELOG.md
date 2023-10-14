@@ -1,5 +1,8 @@
 #Changelog
 
+## [1.0.25.4] - 2023-10-14
+- Invitation code management API added
+
 ## [1.0.25.3] - 2023-10-11
 - Device management related API added
 
