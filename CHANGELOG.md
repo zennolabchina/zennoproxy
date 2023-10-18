@@ -1,5 +1,11 @@
 #Changelog
 
+## [1.0.26] - 2023-10-18
+- Function optimization
+  - The administrator obtains the user list and adds device IP search conditions;
+  - Disable traffic packets: Add status judgment to traffic packet detection;
+  - Disable user: Modify the status of all traffic packets of the user to disabled.
+
 ## [1.0.25.4] - 2023-10-14
 - Invitation code management API added
 
