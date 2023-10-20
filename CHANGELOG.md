@@ -1,5 +1,9 @@
 #Changelog
 
+## [1.0.27] - 2023-10-20
+- Agency Platform/Regional Data Management API
+- Modification of service sticky parameters
+
 ## [1.0.26] - 2023-10-18
 - Function optimization
   - The administrator obtains the user list and adds device IP search conditions;
