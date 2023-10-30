@@ -1,5 +1,10 @@
 #Changelog
 
+## [1.0.27.3] - 2023-10-30
+- bug modification;
+   - Exception in obtaining user traffic package list; (remove local platform id parameter condition)
+   - Exception in obtaining user traffic package platform list; (remove local platform id parameter condition)
+
 ## [1.0.27.2] - 2023-10-24
 - Add reset password API;
 - Get administrator log added date query.
