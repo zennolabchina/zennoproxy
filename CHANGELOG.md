@@ -1,4 +1,9 @@
 #Changelog
+## [1.0.27.6] - 2023-11-07
+- BUG modification
+  - sv5-proxy-manager sendSyncRefresh returns abnormal log printing modification;
+   - SAFE_JSON_PARSE removes abnormal log printing;
+   - Create invitation code and set default code;
 
 ## [1.0.27.3] - 2023-10-30
 - bug modification;
