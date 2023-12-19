@@ -1,4 +1,7 @@
 #Changelog
+## [1.0.28.0] - 2023-12-19
+- Singapore server replacement;
+
 ## [1.0.27.6] - 2023-11-07
 - BUG modification
   - sv5-proxy-manager sendSyncRefresh returns abnormal log printing modification;
