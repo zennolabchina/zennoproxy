@@ -1,6 +1,6 @@
 #Changelog
 ## [1.0.28.0] - 2023-12-19
-- Singapore server replacement;
+- Singapore database replacement;
 
 ## [1.0.27.6] - 2023-11-07
 - BUG modification
