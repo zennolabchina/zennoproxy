@@ -1,4 +1,7 @@
 #Changelog
+## [1.0.29.0] - 2023-12-19
+- Add new proxy rules;
+
 ## [1.0.28.0] - 2023-12-19
 - Singapore database replacement;
 
